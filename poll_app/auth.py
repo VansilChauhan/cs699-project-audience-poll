@@ -7,9 +7,9 @@ from models import User
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-
 # returns True if login attempt succeeds, else False
 def login(email, password):
+    global User
     user = User.query.filter_by(email=email).first()
 
     # Verify user exists and password is correct
@@ -24,6 +24,7 @@ def logout():
 
 def signup(email, password):
     # Check if the user already exists
+    global User
     user = User.query.filter_by(email=email).first()
     if user: # user already exists
         return False
