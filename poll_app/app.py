@@ -31,7 +31,7 @@ app = create_app()
 
 @app.route("/")
 def homepage():
-    return render_template("hello world")
+    return render_template("index.html")
 
 from flask import request, redirect, url_for, flash, render_template
 from flask_login import login_user, logout_user, login_required
@@ -50,7 +50,7 @@ def login():
         password = request.form['password']
         if (auth.login(email, password)): # login succeeded
             return redirect(url_for("dashboard"))
-    return render_template("Login page")
+    return render_template("login.html")
 
 
 @app.route('/logout')
@@ -67,7 +67,7 @@ def signup():
 
         if (auth.signup(email, password)):
             return redirect(url_for("dashboard"))
-    return render_template("Signup page")
+    return render_template("signup.html")
 
 
 
@@ -78,5 +78,5 @@ def dashboard():
 
 
 if (__name__ == "__main__"):
-    app.run()
+    app.run(debug=True)
 
