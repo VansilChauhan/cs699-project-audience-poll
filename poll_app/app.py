@@ -1,8 +1,9 @@
 from flask import Flask
-from flask import request, redirect, url_for, render_template
+from flask import request, redirect, url_for, render_template, flash
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, login_required
+from flask_login import login_user, logout_user, LoginManager, login_required
 import auth
+from werkzeug.security import check_password_hash
 
 db = SQLAlchemy()
 login_manager = LoginManager()
@@ -33,9 +34,6 @@ app = create_app()
 def homepage():
     return render_template("index.html")
 
-from flask import request, redirect, url_for, flash, render_template
-from flask_login import login_user, logout_user, login_required
-from werkzeug.security import check_password_hash
 
 
 @login_manager.user_loader
