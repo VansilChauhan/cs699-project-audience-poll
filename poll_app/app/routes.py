@@ -1,29 +1,7 @@
-from flask import Flask
-from flask import request, redirect, url_for, render_template, flash
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, login_required
-import auth
-
-db = SQLAlchemy()
-login_manager = LoginManager()
-
-def create_app():
-    app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///poll_app.db' 
-    app.config['SECRET_KEY'] = 'your_secret_key'
-
-    db.init_app(app)
-    login_manager.init_app(app)
-
-    # import all the model definitions after initializing db
-    with app.app_context():
-        import models
-        db.create_all()
-
-    # Specify the view/function where users are redirected to if not logged in
-    login_manager.login_view = 'homepage'
-
-    return app
+from flask_login import login_required
+from flask import request, redirect, url_for, render_template
+from app import create_app, login_manager
+from app import auth
 
 app = create_app()
 
@@ -67,8 +45,3 @@ def signup():
 @login_required
 def dashboard():
     return "This is a protected page"
-
-
-if (__name__ == "__main__"):
-    app.run(debug=True)
-
