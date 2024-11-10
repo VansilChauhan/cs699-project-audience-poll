@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block body %}
+<header>
+    <a href="{{ url_for('feed') }}" class="button">Back to Feed</a>
+</header>
+<h2> {{poll.title}} </h2>
+<p>{{ poll.description }}</p>
+<form action="{{ url_for('submit_vote', poll_id=poll.poll_id) }}" method="POST">
+    {% for option in poll.options %}
+        <div>
+            <input type="radio" id="option{{ option.option_id }}" name="selected_option" value="{{ option.option_id }}" required>
+            <label for="option{{ option.option_id }}">{{ option.text }}</label>
+        </div>
+    {% endfor %}
+    <button type="submit" class="button">Submit Vote</button>
+</form>
+{% endblock %}

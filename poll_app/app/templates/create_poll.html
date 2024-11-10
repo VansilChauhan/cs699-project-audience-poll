@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block body %}
+<nav>
+    <div>
+        <a href="{{ url_for('feed') }}">Back to Feed</a>
+    </div>
+</nav>
+
+<!-- Poll Creation Form -->
+<div>
+    <h2>Create a New Poll</h2>
+    <form action="{{ url_for('create_poll') }}" method="POST">
+        <label for="title">Poll Question</label>
+        <input type="text" id="title" name="title" required placeholder="Enter your poll question here">
+        
+        <label for="description">Description</label>
+        <input type="textarea" id="description" name="description" placeholder="Enter your poll question here">
+        
+        <label for="option1">Option 1</label>
+        <input type="text" id="option1" name="option1" required placeholder="Enter first option">
+        
+        <label for="option2">Option 2</label>
+        <input type="text" id="option2" name="option2" required placeholder="Enter second option">
+        
+        <!-- Submit Button -->
+        <button type="submit">Create Poll</button>
+    </form>
+</div>
+{% endblock %}
