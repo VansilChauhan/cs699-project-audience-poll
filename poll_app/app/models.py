@@ -1,6 +1,7 @@
 from app import db
 from flask_login import UserMixin
 from datetime import datetime
+from sqlalchemy.ext.hybrid import hybrid_property
 
 
 '''
@@ -45,10 +46,14 @@ class Option(db.Model):
     __tablename__ = 'option'
     id= db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(200), nullable=False)
-    vote_count = db.Column(db.Integer, default=0)
+    # vote_count = db.Column(db.Integer, default=0)
     poll_id = db.Column(db.Integer, db.ForeignKey('poll.id'), nullable=False)
     
     votes = db.relationship('Vote', backref='option', lazy=True)
+    
+    @hybrid_property
+    def vote_count(self):
+        return len(self.votes)
     
 class Vote(db.Model):
     __tablename__ = 'vote'

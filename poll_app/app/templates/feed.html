@@ -11,7 +11,7 @@
     <h3>Latest Polls</h3>
     {% for poll in polls %}
     <div>
-        <h4>{{ poll.question }}</h4>
+        <h4>{{ poll.title }}</h4>
         <a href="{{ url_for('poll', poll_id=poll.id) }}">Vote on this poll</a>
     </div>
     {% endfor %}

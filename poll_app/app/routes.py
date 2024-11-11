@@ -47,7 +47,8 @@ def signup():
 @app.route('/feed')
 @login_required
 def feed():
-    return render_template("feed.html")
+    polls = ps.fetch_polls()
+    return render_template("feed.html", polls=polls)
 
 @app.route('/create_poll', methods=['GET', 'POST'])
 @login_required
@@ -59,3 +60,19 @@ def create_poll():
         ps.create_option(text=request.form['option1'], poll_id=poll.id)
         ps.create_option(text=request.form['option2'], poll_id=poll.id)
     return render_template("create_poll.html")
+
+@app.route('/poll/<poll_id>')
+@login_required
+def poll(poll_id):
+    poll = ps.get_poll(poll_id=poll_id)
+    return render_template("poll.html", poll=poll)
+
+@app.route("/submit_vote/<poll_id>", methods=['GET', 'POST'])
+@login_required
+def submit_vote(poll_id):
+    if request.method == 'POST':
+        selected_option_id=request.form['selected_option']
+        ps.vote(user_id=current_user.id, poll_id=poll_id, option_id=selected_option_id)
+        return render_template("poll_results.html", poll=ps.get_poll(poll_id=poll_id))
+    return redirect(url_for("feed"))
+    

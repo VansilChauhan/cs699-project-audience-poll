@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block body %}
+<header>
+    <a href="{{ url_for('feed') }}" class="button">Back to Feed</a>
+</header>
+<h2> {{poll.title}} </h2>
+<p>{{ poll.description }}</p>
+{% for option in poll.options %}
+    <p> {{option.text}} == {{option.vote_count}}
+{% endfor %}
+{% endblock %}
