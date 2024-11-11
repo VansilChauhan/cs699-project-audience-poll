@@ -12,16 +12,16 @@
     <form action="{{ url_for('create_poll') }}" method="POST">
         <label for="title">Poll Question</label>
         <input type="text" id="title" name="title" required placeholder="Enter your poll question here">
-        
+        <br>
         <label for="description">Description</label>
         <input type="textarea" id="description" name="description" placeholder="Enter your poll question here">
-        
+        <br>
         <label for="option1">Option 1</label>
         <input type="text" id="option1" name="option1" required placeholder="Enter first option">
-        
+        <br>
         <label for="option2">Option 2</label>
         <input type="text" id="option2" name="option2" required placeholder="Enter second option">
-        
+        <br>
         <!-- Submit Button -->
         <button type="submit">Create Poll</button>
     </form>

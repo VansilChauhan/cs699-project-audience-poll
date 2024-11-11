@@ -1,19 +1,29 @@
 {% extends "base.html" %}
 {% block body %}
+<nav>
+    <a href="{{url_for('logout')}}">Log out</a>
+</nav>
 <div>
-    <h2>Welcome to Your Feed</h2>
-    <div>
-        <a href="{{ url_for('create_poll') }}">
-            <button>Create New Poll</button>
-        </a>
-    </div>
-
-    <h3>Latest Polls</h3>
-    {% for poll in polls %}
-    <div>
-        <h4>{{ poll.title }}</h4>
-        <a href="{{ url_for('poll', poll_id=poll.id) }}">Vote on this poll</a>
-    </div>
-    {% endfor %}
+    <p>Welcome <small>{{user.email}}</small> to Your Feed, 
+    
+        <a href="{{ url_for('create_poll') }}">Create New Poll</a>
+    </p>
+    <h5> Vote? </h5>
+    <table class="table">
+        <tr class="">
+            <th scope="col"> Poll Title </th>
+            <th scope="col"> Created by </th>
+            <th scope="col"> Created Date </th>
+            <th scope="col"> Link </th>
+        </tr>
+        {% for poll in polls %}
+        <tr>
+            <td>{{ poll.title }}</td>
+            <td>{{ poll.created_by_username}} </td>
+            <td>{{ poll.created_at.strftime('%B %d, %Y at %I:%M %p')}} </td>
+            <td><a href="{{ url_for('poll', poll_id=poll.id) }}">open</a></td>
+        </tr>
+        {% endfor %}
+    </table>
 </div>
 {% endblock %}

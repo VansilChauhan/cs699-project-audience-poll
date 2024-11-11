@@ -14,16 +14,18 @@ def create_option(text, poll_id):
     db.session.commit()
     
 def fetch_polls():
-    return Poll.query.all()
+    return Poll.query.order_by(Poll.created_at.desc()).all()
 
 def get_poll(poll_id):
     return Poll.query.filter_by(id=poll_id).first()
 
 def vote(poll_id, option_id, user_id):
-    vote = Vote(user_id=user_id, poll_id=poll_id, option_id=option_id)
-    # option.vote_count=option.votes.count()
-    db.session.add(vote)
-    db.session.commit()
+    existing_vote = Vote.query.filter_by(user_id=user_id, poll_id=poll_id).first()
+    if not existing_vote:
+        vote = Vote(user_id=user_id, poll_id=poll_id, option_id=option_id)
+        # option.vote_count=option.votes.count()
+        db.session.add(vote)
+        db.session.commit()
     
 def get_vote_counts_for_poll(option_id):
     vote_count = (

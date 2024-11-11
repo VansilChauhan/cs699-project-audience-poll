@@ -32,7 +32,7 @@ def login():
 @login_required
 def logout():
     auth.logout()
-    return redirect(url_for('login'))
+    return redirect(url_for('homepage'))
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -41,14 +41,16 @@ def signup():
         password = request.form['password']
 
         if (auth.signup(email, password)):
-            return redirect(url_for("feed"))
+            if (auth.login(email, password)): # login succeeded
+                return redirect(url_for("feed"))
+            return redirect(url_for("login"))
     return render_template("signup.html")
 
 @app.route('/feed')
 @login_required
 def feed():
     polls = ps.fetch_polls()
-    return render_template("feed.html", polls=polls)
+    return render_template("feed.html", user=current_user, polls=polls)
 
 @app.route('/create_poll', methods=['GET', 'POST'])
 @login_required

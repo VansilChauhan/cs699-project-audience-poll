@@ -42,6 +42,17 @@ class Poll(db.Model):
     options = db.relationship('Option', backref='poll', lazy=True)
     votes = db.relationship('Vote', backref='poll', lazy=True)
     vote_history = db.relationship('UserVoteHistory', backref='poll', lazy=True)
+    
+    @hybrid_property
+    def vote_count(self):
+        return len(self.votes)
+    
+    @hybrid_property
+    def created_by_username(self):
+        creator = User.query.get(self.creator_id)
+        name, _, _ =creator.email.rpartition('@')
+        return name
+    
 class Option(db.Model):
     __tablename__ = 'option'
     id= db.Column(db.Integer, primary_key=True)

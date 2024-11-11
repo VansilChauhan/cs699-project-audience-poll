@@ -3,9 +3,24 @@
 <header>
     <a href="{{ url_for('feed') }}" class="button">Back to Feed</a>
 </header>
-<h2> {{poll.title}} </h2>
+<h5> {{poll.title}}</h5>
 <p>{{ poll.description }}</p>
-{% for option in poll.options %}
-    <p> {{option.text}} == {{option.vote_count}}
-{% endfor %}
+<table class="table">
+    <tr>
+        <th>Option</th>
+        <th>Fill</th>
+        <th>Count</th>
+        <th>%</th>
+    </tr>
+    {% for option in poll.options %}
+    <tr>
+        {% set value = ((option.vote_count * 10000) // poll.vote_count) / 100 %}
+        <td>{{option.text}}</td>
+        <td><progress id="{{option.id}}" value="{{ value }}" max=100></progress></td>
+        <td>{{option.vote_count}}</td>
+        <td>{{value}} %</td>
+    </tr>
+    {% endfor %}
+</table>
+<small>Total Votes: {{poll.vote_count}}</small>
 {% endblock %}
