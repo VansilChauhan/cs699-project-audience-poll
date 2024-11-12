@@ -10,18 +10,18 @@
     </p>
     <h5> Vote? </h5>
     <table class="table">
-        <tr class="">
-            <th scope="col"> Poll Title </th>
-            <th scope="col"> Created by </th>
+        <tr>
+            <th scope="col"> Poll </th>
+            <th scope="col"> Votes </th>
+            <th scope="col"> Author </th>
             <th scope="col"> Created Date </th>
-            <th scope="col"> Link </th>
         </tr>
         {% for poll in polls %}
         <tr>
-            <td>{{ poll.title }}</td>
+            <td><a href="{{ url_for('poll', poll_id=poll.id) }}">{{ poll.title }}</a></td>
+            <td>{{ poll.vote_count}}</td>
             <td>{{ poll.created_by_username}} </td>
             <td>{{ poll.created_at.strftime('%B %d, %Y at %I:%M %p')}} </td>
-            <td><a href="{{ url_for('poll', poll_id=poll.id) }}">open</a></td>
         </tr>
         {% endfor %}
     </table>
