@@ -26,7 +26,7 @@ def login():
         print(f"password is {password}")
         if (auth.login(email, password)): # login succeeded
             return redirect(url_for("feed"))
-    return render_template("login.html")
+    return render_template("index.html")
 
 @app.route('/logout')
 @login_required
