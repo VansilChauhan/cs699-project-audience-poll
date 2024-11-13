@@ -1,25 +1,4 @@
 {% extends "base.html" %}
 {% block body %}
-<link rel="stylesheet" href="{{ url_for('static', filename='login-signup.css') }}" type="text/css"/>
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
-<div class="wrapper">
-	<h1 class="title">Login to Poll-Me</h1>
-    <p class="desc" style="padding-top: 10px;">Create polls, Gather opinions, Make informed decisions with</p>
-	<p class="desc">Collective Input!</p>
-    <form action="{{url_for('login')}}" method="POST">
-      <div class="row">
-        <i class="fas fa-user"></i>
-        <input type="email" id="email" name="email" placeholder="Email ID" required />
-      </div>
-      <div class="row">
-        <i class="fas fa-lock"></i>
-        <input type="password" id="password" name="password" placeholder="Password" required />
-      </div>
-      <!--<div class="pass"><a href="#">Forgot password?</a></div>-->
-      <div class="row button">
-        <input type="submit" value="Login" />
-      </div>
-      <div class="signup-login-link">Not a member? <a href="{{ url_for('signup') }}">Signup now</a></div>
-    </form>
-  </div>
+
 {% endblock %}

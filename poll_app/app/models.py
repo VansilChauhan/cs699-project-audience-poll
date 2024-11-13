@@ -37,19 +37,19 @@ class Poll(db.Model):
     description = db.Column(db.String(500), nullable=True)
     created_at =db.Column(db.DateTime, default=datetime.now)
     status = db.Column(db.String(20), default='active')
-    creator_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     
     options = db.relationship('Option', backref='poll', lazy=True)
     votes = db.relationship('Vote', backref='poll', lazy=True)
-    vote_history = db.relationship('UserVoteHistory', backref='poll', lazy=True)
+    # vote_history = db.relationship('UserVoteHistory', backref='poll', lazy=True)
     
     @hybrid_property
     def vote_count(self):
         return len(self.votes)
     
     @hybrid_property
-    def created_by_username(self):
-        creator = User.query.get(self.creator_id)
+    def creator_username(self):
+        creator = User.query.get(self.user_id)
         name, _, _ =creator.email.rpartition('@')
         return name
     
@@ -78,5 +78,4 @@ class UserVoteHistory(db.Model):
     __tablename__ = 'user_vote_history'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    poll_id = db.Column(db.Integer, db.ForeignKey('poll.id'),nullable=False)
-    vote_submitted = db.Column(db.Boolean, default=True)
+    poll_id = db.Column(db.Integer, db.ForeignKey('poll.id'), nullable=False)

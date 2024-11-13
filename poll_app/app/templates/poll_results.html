@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block body %}
 <header>
-    <a href="{{ url_for('feed') }}" class="button">Back to Feed</a>
+    <a href="{{ url_for('home') }}" class="button">Home</a>
 </header>
 <h5> {{poll.title}}</h5>
 <p>{{ poll.description }}</p>
@@ -14,7 +14,11 @@
     </tr>
     {% for option in poll.options %}
     <tr>
+        {% if poll.vote_count == 0 %}
+        {% set value = 0 %}
+        {% else%}
         {% set value = ((option.vote_count * 10000) // poll.vote_count) / 100 %}
+        {% endif%}
         <td>{{option.text}}</td>
         <td><progress id="{{option.id}}" value="{{ value }}" max=100></progress></td>
         <td>{{option.vote_count}}</td>

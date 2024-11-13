@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block body %}
 <link rel="stylesheet" href="{{ url_for('static', filename='login-signup.css') }}" type="text/css"/>
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
-<<div class="wrapper">
-    <h1 class="title">Register to Poll-Me</h1>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+<div class="wrapper">
+    <h1 class="title">Register to Audience-Poll</h1>
     <p class="desc" style="padding-top: 10px;">Create polls, Gather opinions, Make informed decisions with</p>
-	<p class="desc">Collective Input!</p>
+	  <p class="desc">Collective Input!</p>
     <form action="{{url_for('signup')}}" method="POST">
       <div class="row">
         <i class="fas fa-user"></i>
@@ -21,5 +21,5 @@
       </div>
       <div class="signup-login-link">Already a member? <a href="{{ url_for('login') }}">Login now</a></div>
     </form>
-  </div>
+</div>
 {% endblock %}

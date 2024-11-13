@@ -19,5 +19,5 @@ def create_app():
         from app import models
         db.create_all()
 
-    login_manager.login_view = 'homepage'
+    login_manager.login_view = 'index'
     return app

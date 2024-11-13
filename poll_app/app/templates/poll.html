@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block body %}
 <header>
-    <a href="{{ url_for('feed') }}" class="button">Back to Feed</a>
+    <a href="{{ url_for('home') }}" class="button">Home</a>
 </header>
 <h2> {{poll.title}} </h2>
 <p>{{ poll.description }}</p>
-<form action="{{ url_for('submit_vote', poll_id=poll.id) }}" method="POST">
+<form action="{{ url_for('results', poll_id=poll.id) }}" method="POST">
     {% for option in poll.options %}
         <div>
             <input type="radio" id="{{ option.option_id }}" name="selected_option" value="{{ option.id }}" required>

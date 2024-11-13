@@ -1,5 +1,4 @@
-from flask_login import login_required
-from flask_login import current_user
+from flask_login import login_required, current_user
 from flask import request, redirect, url_for, render_template
 from app import create_app, login_manager
 from app import auth
@@ -9,8 +8,10 @@ from app import poll_service as ps
 app = create_app()
 
 @app.route("/")
-def homepage():
-    return render_template("index.html")
+def index():
+    if current_user.is_authenticated:
+        return redirect(url_for('home'))    
+    return redirect(url_for('login'))
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -25,14 +26,14 @@ def login():
         print(f"email is {email}")
         print(f"password is {password}")
         if (auth.login(email, password)): # login succeeded
-            return redirect(url_for("feed"))
-    return render_template("index.html")
+            return redirect(url_for("home"))
+    return render_template('login.html')
 
 @app.route('/logout')
 @login_required
 def logout():
     auth.logout()
-    return redirect(url_for('homepage'))
+    return redirect(url_for('index'))
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -42,15 +43,15 @@ def signup():
 
         if (auth.signup(email, password)):
             if (auth.login(email, password)): # login succeeded
-                return redirect(url_for("feed"))
+                return redirect(url_for("home"))
             return redirect(url_for("login"))
     return render_template("signup.html")
 
-@app.route('/feed')
+@app.route('/home')
 @login_required
-def feed():
+def home():
     polls = ps.fetch_polls()
-    return render_template("feed.html", user=current_user, polls=polls)
+    return render_template("home.html", user=current_user, polls=polls)
 
 @app.route('/create_poll', methods=['GET', 'POST'])
 @login_required
@@ -58,23 +59,30 @@ def create_poll():
     if request.method == 'POST':
         title = request.form['title']
         description = request.form['description']
-        poll = ps.create_poll(title=title, description=description, creator_id=current_user.id)
-        ps.create_option(text=request.form['option1'], poll_id=poll.id)
-        ps.create_option(text=request.form['option2'], poll_id=poll.id)
-    return render_template("create_poll.html")
+        poll = ps.create_poll(title=title, description=description, user_id=current_user.id)
+        # ps.create_option(text=request.form['option1'], poll_id=poll.id)
+        # ps.create_option(text=request.form['option2'], poll_id=poll.id)
+        options = [value for key, value in request.form.items() if key.startswith('option')]
+        ps.create_options(options=options, poll_id=poll.id)
+        
+        return redirect(url_for('home'))
+    return render_template('create_poll.html')
 
 @app.route('/poll/<poll_id>')
 @login_required
 def poll(poll_id):
+    if ps.check_history(poll_id=poll_id, user_id=current_user.id) or ps.check_owner(poll_id=poll_id, user_id=current_user.id):
+        return redirect(url_for('results', poll_id=poll_id))
     poll = ps.get_poll(poll_id=poll_id)
     return render_template("poll.html", poll=poll)
 
-@app.route("/submit_vote/<poll_id>", methods=['GET', 'POST'])
+@app.route("/results/<poll_id>", methods=['GET', 'POST'])
 @login_required
-def submit_vote(poll_id):
+def results(poll_id):
     if request.method == 'POST':
         selected_option_id=request.form['selected_option']
         ps.vote(user_id=current_user.id, poll_id=poll_id, option_id=selected_option_id)
-        return render_template("poll_results.html", poll=ps.get_poll(poll_id=poll_id))
-    return redirect(url_for("feed"))
+    return render_template("poll_results.html", poll=ps.get_poll(poll_id=poll_id))
+    # return redirect(url_for("home"))
+
     

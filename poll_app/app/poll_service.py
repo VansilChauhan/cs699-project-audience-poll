@@ -1,16 +1,17 @@
 from app import db
-from app.models import Poll, Option, Vote
+from app.models import Poll, Option, Vote, UserVoteHistory
 from sqlalchemy import func
 
-def create_poll(title, description, creator_id):
-    poll = Poll(title=title, description=description, creator_id=creator_id)
+def create_poll(title, description, user_id):
+    poll = Poll(title=title, description=description, user_id=user_id)
     db.session.add(poll)
     db.session.commit()
     return poll
     
-def create_option(text, poll_id):
-    option = Option(text=text, poll_id=poll_id)
-    db.session.add(option)
+def create_options(options, poll_id):
+    for text in options:
+        option = Option(text=text, poll_id=poll_id)
+        db.session.add(option)
     db.session.commit()
     
 def fetch_polls():
@@ -20,10 +21,10 @@ def get_poll(poll_id):
     return Poll.query.filter_by(id=poll_id).first()
 
 def vote(poll_id, option_id, user_id):
-    existing_vote = Vote.query.filter_by(user_id=user_id, poll_id=poll_id).first()
-    if not existing_vote:
+    is_already_voted = check_history(user_id=user_id,poll_id=poll_id)
+    if not is_already_voted:
         vote = Vote(user_id=user_id, poll_id=poll_id, option_id=option_id)
-        # option.vote_count=option.votes.count()
+        vote_history(user_id=user_id, poll_id=poll_id)
         db.session.add(vote)
         db.session.commit()
     
@@ -34,3 +35,18 @@ def get_vote_counts_for_poll(option_id):
         .scalar()
     )
     return vote_count
+
+def vote_history(user_id, poll_id):
+    history = UserVoteHistory(user_id=user_id, poll_id=poll_id)
+    db.session.add(history)
+    db.session.commit()
+        
+def check_history(user_id, poll_id):
+    if UserVoteHistory.query.filter_by(user_id=user_id, poll_id=poll_id).first():
+        return True
+    return False
+
+def check_owner(user_id, poll_id):
+    if Poll.query.filter_by(user_id=user_id, id=poll_id).first():
+        return True
+    return False

@@ -2,7 +2,7 @@
 {% block body %}
 <nav>
     <div>
-        <a href="{{ url_for('feed') }}">Back to Feed</a>
+        <a href="{{ url_for('home') }}">Home</a>
     </div>
 </nav>
 
@@ -16,14 +16,58 @@
         <label for="description">Description</label>
         <input type="textarea" id="description" name="description" placeholder="Enter your poll question here">
         <br>
-        <label for="option1">Option 1</label>
-        <input type="text" id="option1" name="option1" required placeholder="Enter first option">
-        <br>
-        <label for="option2">Option 2</label>
-        <input type="text" id="option2" name="option2" required placeholder="Enter second option">
-        <br>
+        <div id="options">
+            <input type="text" name="option1" placeholder="Option 1" required>
+            <input type="text" name="option2" placeholder="Option 2" required>
+        </div>
+        <button type="button" id="add-option-btn" onclick="addOption()">+ Add Option</button>
+        <button type="button" id="remove-option-btn" onclick="removeOption()" disabled>- Remove Last Option</button>
         <!-- Submit Button -->
         <button type="submit">Create Poll</button>
     </form>
 </div>
+{% endblock %}
+{% block script %}
+<script>
+    let optionCount = 2; 
+    const maxOptions = 16;
+
+    function addOption() {
+        if (optionCount < maxOptions){
+
+            optionCount++;  
+            const optionsContainer = document.getElementById("options");
+            const newOption = document.createElement("input");
+            newOption.type = "text";
+            newOption.name = `option${optionCount}`;
+            newOption.placeholder = `Option ${optionCount}`;
+            newOption.required = true;
+            optionsContainer.appendChild(newOption);
+
+            if (optionCount > 2) {
+                document.getElementById("remove-option-btn").disabled = false;
+            }
+            if (optionCount === maxOptions){
+                document.getElementById("add-option-btn").disabled = true;
+            }
+        }
+    }
+
+    function removeOption() {
+        if (optionCount > 2) {
+            const optionsContainer = document.getElementById("options");
+            
+            optionsContainer.removeChild(optionsContainer.lastElementChild);
+            optionCount--;
+
+            if (optionCount === 2) {
+                document.getElementById("remove-option-btn").disabled = true;
+            }
+
+            if (optionCount < maxOptions) {
+                document.getElementById("add-option-btn").disabled = false;
+            }
+        }
+    }
+</script>
 {% endblock %}

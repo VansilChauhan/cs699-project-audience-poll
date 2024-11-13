@@ -4,7 +4,7 @@
     <a href="{{url_for('logout')}}">Log out</a>
 </nav>
 <div>
-    <p>Welcome <small>{{user.email}}</small> to Your Feed, 
+    <p>Welcome <small>{{user.email}}</small> to Your Home Page, 
     
         <a href="{{ url_for('create_poll') }}">Create New Poll</a>
     </p>
@@ -20,7 +20,7 @@
         <tr>
             <td><a href="{{ url_for('poll', poll_id=poll.id) }}">{{ poll.title }}</a></td>
             <td>{{ poll.vote_count}}</td>
-            <td>{{ poll.created_by_username}} </td>
+            <td>{{ poll.creator_username}} </td>
             <td>{{ poll.created_at.strftime('%B %d, %Y at %I:%M %p')}} </td>
         </tr>
         {% endfor %}
