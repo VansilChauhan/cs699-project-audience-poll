@@ -13,7 +13,7 @@
 <h2 style="text-align:center;cursor: default;"> {{poll.title}}</h2>
 <p style="text-align:center;cursor: default;">{{ poll.description }}</p>
 <br>
-<div class="poll-area">
+<div class="poll-area m-5">
 <table class="table">
     <tr>
         <th>Option</th>
@@ -28,10 +28,10 @@
         {% else%}
         {% set value = ((option.vote_count * 10000) // poll.vote_count) / 100 %}
         {% endif%}
-        <td>{{option.text}}</td>
-        <td><progress style="accent-color:#50B7CB;" id="{{option.id}}" value="{{ value }}" max=100></progress></td>
-        <td>{{option.vote_count}}</td>
-        <td>{{value}} %</td>
+        <td class="col-sm-3">{{option.text}}</td>
+        <td class="col-sm-3"><progress style="accent-color:#50B7CB;" id="{{option.id}}" value="{{ value }}" max=100></progress></td>
+        <td class="col-sm-1">{{option.vote_count}}</td>
+        <td class="col-sm-3">{{value}} %</td>
     </tr>
     {% endfor %}
 </table>

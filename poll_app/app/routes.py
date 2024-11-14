@@ -69,7 +69,7 @@ def create_poll():
 @app.route('/poll/<poll_id>')
 @login_required
 def poll(poll_id):
-    if ps.check_history(poll_id=poll_id, user_id=current_user.id) or ps.check_owner(poll_id=poll_id, user_id=current_user.id):
+    if ps.check_history(poll_id=poll_id, user_id=current_user.id):
         return redirect(url_for('results', poll_id=poll_id))
     poll = ps.get_poll(poll_id=poll_id)
     return render_template("poll.html", poll=poll)

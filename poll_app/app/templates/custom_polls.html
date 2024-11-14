@@ -1,8 +1,6 @@
 {% extends 'home.html' %}
 {% block wrapper %}
-<h2 class="welcome">Welcome <i class="username">{{user.email}}</i></h2><br>
-    <h4 class="caption" style="cursor: default;"><i>Your voice matters, Cast your vote now! Click on the polls below to make your choice count</i>
-    <img src="{{ url_for('static', filename='vote.png')}}" height="50" width="50"></h4>
+<div class="m-5">
     <table class="table">
         <tr>
             <th scope="col"> Poll Name </th>
@@ -12,11 +10,12 @@
         </tr>
         {% for poll in polls %}
         <tr>
-            <td><a href="{{ url_for('poll', poll_id=poll.id) }}">{{ poll.title }}</a></td>
-            <td>{{ poll.vote_count}}</td>
-            <td>{{ poll.creator_username}} </td>
-            <td>{{ poll.created_at.strftime('%B %d, %Y at %I:%M %p')}} </td>
+            <td class='col-sm-5'><a href="{{ url_for('poll', poll_id=poll.id) }}">{{ poll.title }}</a></td>
+            <td class='col-sm-1'>{{ poll.vote_count}}</td>
+            <td class='col-sm-1'>{{ poll.creator_username}} </td>
+            <td class='col-sm-3'>{{ poll.created_at.strftime('%B %d, %Y at %I:%M %p')}} </td>
         </tr>
         {% endfor %}
     </table>
+    </div>
 {% endblock %}
