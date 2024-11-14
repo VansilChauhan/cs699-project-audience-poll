@@ -24,7 +24,7 @@ def vote(poll_id, option_id, user_id):
     is_already_voted = check_history(user_id=user_id,poll_id=poll_id)
     if not is_already_voted:
         vote = Vote(user_id=user_id, poll_id=poll_id, option_id=option_id)
-        vote_history(user_id=user_id, poll_id=poll_id)
+        add_vote_history(user_id=user_id, poll_id=poll_id)
         db.session.add(vote)
         db.session.commit()
     
@@ -36,7 +36,7 @@ def get_vote_counts_for_poll(option_id):
     )
     return vote_count
 
-def vote_history(user_id, poll_id):
+def add_vote_history(user_id, poll_id):
     history = UserVoteHistory(user_id=user_id, poll_id=poll_id)
     db.session.add(history)
     db.session.commit()
@@ -50,3 +50,13 @@ def check_owner(user_id, poll_id):
     if Poll.query.filter_by(user_id=user_id, id=poll_id).first():
         return True
     return False
+
+def get_polls_voted_by_user(user_id):
+    polls =  fetch_polls()
+    my_voted_polls = [poll for poll in polls if check_history(user_id=user_id, poll_id=poll.id)]
+    return my_voted_polls
+
+def get_polls_created_by_user(user_id):
+    polls =  fetch_polls()
+    my_created_polls = [poll for poll in polls if check_owner(user_id=user_id, poll_id=poll.id)]
+    return my_created_polls

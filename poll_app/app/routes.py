@@ -25,7 +25,7 @@ def login():
         password = request.form['password']
         print(f"email is {email}")
         print(f"password is {password}")
-        if (auth.login(email, password)): # login succeeded
+        if (auth.login(email, password)):
             return redirect(url_for("home"))
     return render_template('login.html')
 
@@ -42,7 +42,7 @@ def signup():
         password = request.form['password']
 
         if (auth.signup(email, password)):
-            if (auth.login(email, password)): # login succeeded
+            if (auth.login(email, password)):
                 return redirect(url_for("home"))
             return redirect(url_for("login"))
     return render_template("signup.html")
@@ -51,7 +51,7 @@ def signup():
 @login_required
 def home():
     polls = ps.fetch_polls()
-    return render_template("home.html", user=current_user, polls=polls)
+    return render_template("custom_polls.html", user=current_user, polls=polls)
 
 @app.route('/create_poll', methods=['GET', 'POST'])
 @login_required
@@ -60,12 +60,10 @@ def create_poll():
         title = request.form['title']
         description = request.form['description']
         poll = ps.create_poll(title=title, description=description, user_id=current_user.id)
-        # ps.create_option(text=request.form['option1'], poll_id=poll.id)
-        # ps.create_option(text=request.form['option2'], poll_id=poll.id)
         options = [value for key, value in request.form.items() if key.startswith('option')]
         ps.create_options(options=options, poll_id=poll.id)
         
-        return redirect(url_for('home'))
+        return redirect(url_for('my_polls'))
     return render_template('create_poll.html')
 
 @app.route('/poll/<poll_id>')
@@ -83,6 +81,16 @@ def results(poll_id):
         selected_option_id=request.form['selected_option']
         ps.vote(user_id=current_user.id, poll_id=poll_id, option_id=selected_option_id)
     return render_template("poll_results.html", poll=ps.get_poll(poll_id=poll_id))
-    # return redirect(url_for("home"))
 
+@app.route("/home/my_votes")
+@login_required
+def my_votes():
+    polls = ps.get_polls_voted_by_user(user_id=current_user.id)
+    return render_template("custom_polls.html", user=current_user, polls=polls)
     
+    
+@app.route("/home/my_polls")
+@login_required
+def my_polls():
+    polls = ps.get_polls_created_by_user(user_id=current_user.id)
+    return render_template("custom_polls.html", user=current_user, polls=polls)
