@@ -1,17 +1,39 @@
 {% extends "base.html" %}
 {% block body %}
+<link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}" type="text/css"/>
 <nav>
-    <a href="{{url_for('logout')}}">Log out</a>
-</nav>
-<div>
-    <p>Welcome <small>{{user.email}}</small> to Your Home Page, 
-    
+    <ul>
+        <li><a class="active" href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('create_poll') }}">Create New Poll</a></li>
+        <li><a href="#">My Polls</a></li>
+        <li><a href="#">My Voting History</a></li>
+        <li style="float:right" class="user">
+            <img onclick="toggleSidebar()" style="float:right" src="{{ url_for('static', filename='user.jpg')}}" height="50" width="50">
+        </li>
+    </ul>
+
+    <div id="sidebar" class="sidebar">
+        <a href="javascript:void(0)" class="close-btn" onclick="toggleSidebar()">&times;</a>
         <a href="{{ url_for('create_poll') }}">Create New Poll</a>
-    </p>
-    <h5> Vote? </h5>
+        <a href="#">My Polls</a>
+        <a href="#">My Voting History</a>
+        <a href="{{url_for('logout')}}">Log Out</a>
+    </div>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar");
+            sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
+        }
+    </script>
+</nav>
+<br>
+<div class="wrapper">
+    <h2 class="welcome">Welcome <i class="username">{{user.email}}</i></h2><br>
+    <h4 class="caption" style="cursor: default;"><i>Your voice matters, Cast your vote now! Click on the polls below to make your choice count</i>
+    <img src="{{ url_for('static', filename='vote.png')}}" height="50" width="50"></h4>
     <table class="table">
         <tr>
-            <th scope="col"> Poll </th>
+            <th scope="col"> Poll Name </th>
             <th scope="col"> Votes </th>
             <th scope="col"> Author </th>
             <th scope="col"> Created Date </th>

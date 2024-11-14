@@ -38,12 +38,14 @@ body{
   border-radius: 5px;
   padding: 8px 15px;
   transition: all 0.2s ease;
+  cursor: pointer;
 }
-.poll-area label:hover{
-  border-color: #ddd;
+.poll-options:hover{
+  background-color: #f4f4f4;
 }
 div.selected{
   border-color: #50B7CB!important;
+  background-color: #f4f4f4;
 }
 div .row{
   display: flex;
@@ -98,4 +100,18 @@ div .row span{
 .button {
   padding: 12px 24px;
   font-size: 1rem;
+}
+
+.vote-count {
+  padding: 3px;
+  font-size:30px;
+  display:inline;
+  background-color:#50B7CB;
+  color: white;
+  cursor: default;
+  border-radius: 5px;
+}
+
+th, td {
+  cursor: default;
 }
