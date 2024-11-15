@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block body %}
+<input type="text" value="{{url}}" id="link" readonly>
+<button onclick="copy_to_clipboard()">Copy Link</button>
+<hr>
+<img src="data:image/png;base64, {{qr_img_bytes}}" alt="QR Code">
+{% endblock %}
+{% block script %}
+<script>
+function copy_to_clipboard() {
+    var copyText = document.getElementById("link");
+  
+    copyText.select();
+    copyText.setSelectionRange(0, 99999); 
+  
+    navigator.clipboard.writeText(copyText.value);
+  
+    alert("Copied the text: " + copyText.value);
+}
+</script>
+{% endblock %}

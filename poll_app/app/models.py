@@ -26,9 +26,9 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(500), unique=True, nullable=False) # store the hash password
     is_admin = db.Column(db.Boolean, default=False)
     
-    polls = db.relationship('Poll', backref='creator', lazy=True, cascade="all, delete-orphan")
-    votes = db.relationship('Vote', backref='voter', lazy=True)
-    vote_history = db.relationship('UserVoteHistory', backref='user', lazy=True)
+    polls = db.relationship('Poll', backref='creator', lazy=True, cascade="all, delete")
+    votes = db.relationship('Vote', backref='voter', lazy=True, cascade="all, delete")
+    vote_history = db.relationship('UserVoteHistory', backref='user', lazy=True, cascade="all, delete")
 
 class Poll(db.Model):
     __tablename__ = 'poll'
@@ -39,9 +39,9 @@ class Poll(db.Model):
     status = db.Column(db.String(20), default='active')
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     
-    options = db.relationship('Option', backref='poll', lazy=True)
-    votes = db.relationship('Vote', backref='poll', lazy=True)
-    vote_history = db.relationship('UserVoteHistory', backref='poll', lazy=True)
+    options = db.relationship('Option', backref='poll', cascade="all, delete",lazy=True)
+    votes = db.relationship('Vote', backref='poll', cascade="all,delete", lazy=True)
+    vote_history = db.relationship('UserVoteHistory', backref='poll', cascade="all,delete", lazy=True)
     
     @hybrid_property
     def vote_count(self):
@@ -61,7 +61,7 @@ class Option(db.Model):
     text = db.Column(db.String(200), nullable=False)
     poll_id = db.Column(db.Integer, db.ForeignKey('poll.id'), nullable=False)
     
-    votes = db.relationship('Vote', backref='option', lazy=True)
+    votes = db.relationship('Vote', backref='option', cascade="all, delete", lazy=True)
     
     @hybrid_property
     def vote_count(self):

@@ -60,3 +60,8 @@ def get_polls_created_by_user(user_id):
     polls =  fetch_polls()
     my_created_polls = [poll for poll in polls if check_owner(user_id=user_id, poll_id=poll.id)]
     return my_created_polls
+
+def delete_poll(poll_id):
+    poll = Poll.query.get(poll_id)
+    db.session.delete(poll)
+    db.session.commit()

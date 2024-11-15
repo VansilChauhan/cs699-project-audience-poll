@@ -33,3 +33,9 @@ def signup(email, password):
     db.session.add(new_user)
     db.session.commit()
     return True
+
+def delete_user(user_id):
+    logout_user()
+    user = User.query.get(user_id)
+    db.session.delete(user)
+    db.session.commit()

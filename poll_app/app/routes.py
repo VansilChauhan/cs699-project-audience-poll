@@ -1,3 +1,6 @@
+import qrcode
+from io import BytesIO
+import base64
 from flask_login import login_required, current_user
 from flask import request, redirect, url_for, render_template
 from app import create_app, login_manager
@@ -67,9 +70,8 @@ def create_poll():
     return render_template('create_poll.html')
 
 @app.route('/poll/<poll_id>')
-@login_required
 def poll(poll_id):
-    if ps.check_history(poll_id=poll_id, user_id=current_user.id):
+    if current_user.is_authenticated and ps.check_history(poll_id=poll_id, user_id=current_user.id):
         return redirect(url_for('results', poll_id=poll_id))
     poll = ps.get_poll(poll_id=poll_id)
     return render_template("poll.html", poll=poll)
@@ -93,4 +95,27 @@ def my_votes():
 @login_required
 def my_polls():
     polls = ps.get_polls_created_by_user(user_id=current_user.id)
-    return render_template("custom_polls.html", user=current_user, polls=polls)
+    return render_template("my_polls.html", user=current_user, polls=polls)
+
+@app.route("/home/my_polls/delete/<poll_id>")
+@login_required
+def delete_poll(poll_id):
+    ps.delete_poll(poll_id=poll_id)
+    return redirect(url_for('my_polls'))
+
+@app.route("/delete_account")
+@login_required
+def delete_account():
+    auth.delete_user(user_id=current_user.id)
+    return redirect(url_for('index'))
+
+@app.route("/share/<poll_id>")
+@login_required
+def share_poll(poll_id):
+    url = f"http://127.0.0.1:5000/poll/{poll_id}"
+    qr_path="static/qr_code.png"
+    qr = qrcode.make(url)
+    buffered = BytesIO()
+    qr.save(buffered, format="PNG")
+    qr_img_bytes= base64.b64encode(buffered.getvalue()).decode()
+    return render_template('share_poll.html', url=url, qr_img_bytes=qr_img_bytes)
