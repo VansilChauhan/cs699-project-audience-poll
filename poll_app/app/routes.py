@@ -54,7 +54,7 @@ def signup():
 @login_required
 def home():
     polls = ps.fetch_polls()
-    return render_template("custom_polls.html", user=current_user, polls=polls)
+    return render_template("custom_polls.html", user=current_user, polls=polls, page="home")
 
 @app.route('/create_poll', methods=['GET', 'POST'])
 @login_required
@@ -88,14 +88,14 @@ def results(poll_id):
 @login_required
 def my_votes():
     polls = ps.get_polls_voted_by_user(user_id=current_user.id)
-    return render_template("custom_polls.html", user=current_user, polls=polls)
+    return render_template("custom_polls.html", user=current_user, polls=polls, page="history")
     
     
 @app.route("/home/my_polls")
 @login_required
 def my_polls():
     polls = ps.get_polls_created_by_user(user_id=current_user.id)
-    return render_template("my_polls.html", user=current_user, polls=polls)
+    return render_template("my_polls.html", user=current_user, polls=polls, page="poll")
 
 @app.route("/home/my_polls/delete/<poll_id>")
 @login_required

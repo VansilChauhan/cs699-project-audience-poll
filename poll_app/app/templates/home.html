@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block body %}
 <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}" type="text/css"/>
-<nav>
+<nav onload="activeTab()">
     <ul>
-        <li><a class="active" href="{{ url_for('home') }}">Home</a></li>
-        <li><a href="{{url_for('my_polls')}}">My Polls</a></li>
-        <li><a href="{{url_for('my_votes')}}">My Voting History</a></li>
+        <li><a id="home" href="{{ url_for('home') }}">Home</a></li>
+        <li><a id="poll" href="{{url_for('my_polls')}}">My Polls</a></li>
+        <li><a id="history" href="{{url_for('my_votes')}}">My Voting History</a></li>
         <li><a href="{{ url_for('create_poll') }}">Create New Poll</a></li>
         <li style="float:right" class="user">
             <img onclick="toggleSidebar()" style="float:right" src="{{ url_for('static', filename='user.jpg')}}" height="50" width="50">
@@ -22,6 +22,22 @@
         <a class="text-danger" href="{{url_for('delete_account')}}"> Delete Account </a>
     </div>
     <script>
+
+        const homeTab = document.getElementById("home");
+        const pollTab = document.getElementById("poll");
+        const historyTab = document.getElementById("history");
+        const page = "{{ page }}";
+
+        if (page === "history") {
+            historyTab.classList.add("active");
+        }
+        else if (page === "poll") {
+            pollTab.classList.add("active");
+        }
+        else {
+            homeTab.classList.add("active");
+        }
+
         function toggleSidebar() {
             const sidebar = document.getElementById("sidebar");
             sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
