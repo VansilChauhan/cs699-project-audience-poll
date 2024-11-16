@@ -1,5 +1,5 @@
 from app import db
-from app.models import Poll, Option, Vote, UserVoteHistory
+from app.models import User, Poll, Option, Vote, UserVoteHistory
 from sqlalchemy import func
 
 def create_poll(title, description, user_id):
@@ -61,7 +61,13 @@ def get_polls_created_by_user(user_id):
     my_created_polls = [poll for poll in polls if check_owner(user_id=user_id, poll_id=poll.id)]
     return my_created_polls
 
-def delete_poll(poll_id):
+def delete_poll(user_id, poll_id):
+    user = User.query.filter_by(id=user_id).first()
     poll = Poll.query.get(poll_id)
-    db.session.delete(poll)
-    db.session.commit()
+
+    if user is None or poll is None:
+        return
+
+    if user.is_admin or check_owner(user_id, poll_id):
+        db.session.delete(poll)
+        db.session.commit()
