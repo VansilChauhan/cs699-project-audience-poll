@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block body %}
 <link rel="stylesheet" href="{{ url_for('static', filename='home.css') }}" type="text/css"/>
-<nav onload="activeTab()">
+<nav>
     <ul>
         <li><a id="home" href="{{ url_for('home') }}">Home</a></li>
         <li><a id="poll" href="{{url_for('my_polls')}}">My Polls</a></li>
@@ -10,7 +10,7 @@
         {% if user.is_admin %}
             <li><a href="{{ url_for('admin_users') }}">Admin Panel</a></li>
         {% endif %}
-        <li style="float:right" class="user">
+        <li style="cursor: pointer;float:right" class="user">
             <img onclick="toggleSidebar()" style="float:right" src="{{ url_for('static', filename='user.jpg')}}" height="50" width="50">
         </li>
     </ul>

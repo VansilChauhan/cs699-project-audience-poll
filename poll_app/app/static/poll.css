@@ -133,3 +133,7 @@ th,
 td {
   cursor: default;
 }
+
+.poll-table {
+  width: 97%;
+}
