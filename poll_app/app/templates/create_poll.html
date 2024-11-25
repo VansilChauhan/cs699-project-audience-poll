@@ -36,11 +36,11 @@
                 <button type="button" class="btn btn-info add-remove-button" id="add-option-btn" onclick="addOption()">Add Option</button>
             <button type="button" class="btn btn-info add-remove-button" id="remove-option-btn" onclick="removeOption()" disabled>Remove Last Option</button>
             </div>
-        </form>
 
     <div class="button-div">
-        <button type="submit" class="button btn btn-info">Create Poll</button>
+        <button type="submit" onclick="send()" class="button btn btn-info">Create Poll</button>
     </div>
+  </form>
 </div>
 {% endblock %}
 {% block script %}
@@ -85,6 +85,10 @@
                 document.getElementById("add-option-btn").disabled = false;
             }
         }
+    }
+
+    function send() {
+        console.log("Hello....");
     }
 </script>
 {% endblock %}
