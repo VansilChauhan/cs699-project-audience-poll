@@ -8,7 +8,7 @@
         <li><a id="history" href="{{url_for('my_votes')}}">My Voting History</a></li>
         <li><a href="{{ url_for('create_poll') }}">Create New Poll</a></li>
         {% if user.is_admin %}
-            <li><a href="{{ url_for('admin_users') }}">Admin Panel</a></li>
+        <li><a href="{{ url_for('admin_users') }}">Admin Panel</a></li>
         {% endif %}
         <li style="cursor: pointer;float:right" class="user">
             <img onclick="toggleSidebar()" style="float:right" src="{{ url_for('static', filename='user.jpg')}}" height="50" width="50">
@@ -21,7 +21,7 @@
         <a href="{{url_for('my_votes')}}">My Voting History</a>
         <a href="{{ url_for('create_poll') }}">Create New Poll</a>
         {% if user.is_admin %}
-            <li><a href="{{ url_for('admin_users') }}">Admin Panel</a></li>
+        <a href="{{ url_for('admin_users') }}">Admin Panel</a>
         {% endif %}
         <a href="{{url_for('logout')}}">Log Out</a>
         <hr>
