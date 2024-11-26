@@ -33,7 +33,7 @@ function checkSubmit(){
   if(length.classList.contains("rulePassed") && upper.classList.contains("rulePassed") && 
   lower.classList.contains("rulePassed") && number.classList.contains("rulePassed") && 
   special.classList.contains("rulePassed") && email.classList.contains("emailPass") && 
-  gender.value!="" && age.value!=""){
+  gender.value!="" && age.value!="" && age.value>=12 && age.value<=90){
       document.getElementById("regForm").submit();
   }
   else{
@@ -160,7 +160,7 @@ function passwordRules(){
   </div>
   <div class ="row">
     <label for="age">Age (Years):</label>
-    <input type="number" id="age" name="age" min="12" max="120" required>
+    <input type="number" id="age" name="age" min="12" max="90" required>
   </div>
       <!--<div class="pass"><a href="#">Forgot password?</a></div>-->
       <div class="row button">

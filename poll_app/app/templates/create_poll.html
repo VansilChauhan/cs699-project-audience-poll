@@ -19,7 +19,7 @@
             <td><label for="title" class="poll-labels">Poll Question: </label></td>
             <td><input type="text" id="title" name="title" required placeholder="Poll Question"></td>
         </tr>
-            <td><label for="description" class="poll-labels">Poll Description: </label></td>
+            <td><label for="description" class="poll-labels">Poll Description: </label></td>            
             <td><textarea rows="4" cols="24" id="description" name="description" placeholder="Poll Description"></textarea></td>
             <tr>
                 <td><label for="options" class="poll-labels">Options: </label></td>
@@ -38,7 +38,7 @@
             </div>
 
     <div class="button-div">
-        <button type="submit" class="button btn btn-info">Create Poll</button>
+        <button type="submit" onclick="return confirm('Do you want to submit?')" class="button btn btn-info">Create Poll</button>
     </div>
   </form>
 </div>

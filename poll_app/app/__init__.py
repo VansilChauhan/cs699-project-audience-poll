@@ -22,5 +22,8 @@ def create_app():
         db.create_all()
         from app import auth
         auth.add_admins(admins)
-
+        user_count=20
+        for i in range(user_count//2):
+            auth.signup(email=f"mstudent{i}@example.com", password="123ABCabc#", age=24, gender="male")
+            auth.signup(email=f"fstudent{i}@example.com", password="123ABCabc#", age=24, gender="female")
     return app

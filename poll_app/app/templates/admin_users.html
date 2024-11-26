@@ -11,13 +11,17 @@
         <tr>
             <td class='col-sm-5'>{{ user.email }}</td>
             {% if user.is_admin %}
-                <td class='col-sm-1'>Admin</td>
+                <td class='col-sm-2'>Admin</td>
             {% else %}
-                <td class='col-sm-1'>User</td>
+                <td class='col-sm-2'>User</td>
             {% endif %}
+            <td class="col-sm-1">
             {% if not user.is_admin %}
-                <td class="col-sm-1"><a class="text-danger" href="{{url_for('admin_delete', user_id=user.id)}}">delete</a></td>
+                <a class="text-danger" onclick="return confirm('Are you sure?')" href="{{url_for('admin_delete', user_id=user.id)}}">delete</a>
+                {% else %}
+                NA
             {% endif %}
+            </td>
         </tr>
         {% endfor %}
     </table>
