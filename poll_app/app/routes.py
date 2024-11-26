@@ -148,10 +148,11 @@ def analyse(poll_id):
     if poll and current_user.id == poll.user_id:
         options = ps.get_poll_options(poll_id=poll_id)
         votes_img=create_poll_vote_dist_plot(options=options)
-        # option_gender_dist_plots = []
-        # for option in options:
-        #     option_gender_dist_plots.append(create_votes_gender_distribution(option=option))
-        return render_template('analysis.html', plot_img=votes_img)
+        option_gender_dist_plots = []
+        for option in options:
+            if option.vote_count > 0:
+                option_gender_dist_plots.append(create_votes_gender_distribution(option=option))
+        return render_template('analysis.html', plot_img=votes_img, option_gender_dist_plots=option_gender_dist_plots)
     return redirect(url_for('my_polls'))
 
 def create_poll_vote_dist_plot(options):
@@ -170,19 +171,17 @@ def create_poll_vote_dist_plot(options):
     plot_img = base64.b64encode(buff.getvalue()).decode()
     return plot_img
 
-# def create_votes_gender_distribution(option):
-#     data = []
-#     for gender in ps.get_all_unique_genders():
-#         votes = ps.vote_count_by_user_gender(option=option, gender=gender)
-#         row = {'Gender':gender, 'Votes':votes}
-#         print(row)
-#         data.append(row)
-#     df = pd.DataFrame(data)
-#     print(df)
-#     plt.pie(df['Votes'], labels=df['Gender'])
-#     plt.title(f"{option.text} votes")
-#     buff = BytesIO()
-#     plt.savefig(buff, format="png")
-#     plt.close()
-#     plot_img = base64.b64encode(buff.getvalue()).decode()
-#     return plot_img
+def create_votes_gender_distribution(option):
+    data = []
+    for gender in ps.get_all_unique_genders():
+        votes = ps.vote_count_by_user_gender(option=option, gender=gender)
+        row = {'Gender':gender, 'Votes':votes}
+        data.append(row)
+    df = pd.DataFrame(data)
+    plt.bar(df['Gender'], df['Votes'], label=df['Gender'], width=0.5)
+    plt.title(f"{option.text} votes")
+    buff = BytesIO()
+    plt.savefig(buff, format="png")
+    plt.close()
+    plot_img = base64.b64encode(buff.getvalue()).decode()
+    return plot_img

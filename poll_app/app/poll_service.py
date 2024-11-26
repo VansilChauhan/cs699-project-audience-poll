@@ -86,4 +86,5 @@ def vote_count_by_user_gender(option, gender):
     for vote in option.votes:
         if User.query.get(vote.user_id).gender == gender:
             count += 1
+    print(count)
     return count
