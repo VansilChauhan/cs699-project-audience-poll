@@ -1,8 +1,10 @@
+import re
+import json
 import qrcode
 from io import BytesIO
 import base64
 from flask_login import login_required, current_user
-from flask import request, redirect, url_for, render_template
+from flask import request, redirect, url_for, render_template, flash
 from app import create_app, login_manager
 from app import auth
 from app import poll_service as ps
@@ -31,6 +33,8 @@ def login():
         print(f"password is {password}")
         if (auth.login(email, password)):
             return redirect(url_for("home"))
+        else:
+            flash('Invalid Email/Password. Please Try Again')
     return render_template('login.html')
 
 @app.route('/logout')
@@ -57,7 +61,13 @@ def signup():
 @login_required
 def home():
     polls = ps.fetch_polls()
+
+    if 'q' in request.args:
+        query = request.args.get('q').lower()
+        polls = [p for p in polls if re.search(query, p.title.lower()) or re.search(query, p.creator_username.lower()) or re.search(query, p.created_at.strftime('%B %d, %Y at %I:%M %p').lower())]
+    
     return render_template("custom_polls.html", user=current_user, polls=polls, page="home")
+
 
 @app.route('/create_poll', methods=['GET', 'POST'])
 @login_required
