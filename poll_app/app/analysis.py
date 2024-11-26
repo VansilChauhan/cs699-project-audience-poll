@@ -13,7 +13,7 @@ def create_poll_vote_dist_plot(options):
         row = {'Option':option.text, 'Votes':ps.get_vote_counts_for_poll(option_id=option.id)}
         data.append(row)
     df = pd.DataFrame(data)
-    plt.bar(df['Option'], df['Votes'], label=df['Option'], width=0.5)
+    plt.bar(df['Option'], df['Votes'], label=df['Option'], width=0.5, color='#5CD1D5')
     plt.xlabel("Options")
     plt.ylabel("Votes")
     plt.title("Option Vote Distribution")
@@ -30,7 +30,7 @@ def create_votes_gender_distribution(option):
         row = {'Gender':gender, 'Votes':votes}
         data.append(row)
     df = pd.DataFrame(data)
-    plt.bar(df['Gender'], df['Votes'], label=df['Gender'], width=0.5)
+    plt.bar(df['Gender'], df['Votes'], label=df['Gender'], width=0.5, color='#82A6EF')
     plt.title(f"Votes for Option: '{option.text}'")
     buff = BytesIO()
     plt.savefig(buff, format="png")
