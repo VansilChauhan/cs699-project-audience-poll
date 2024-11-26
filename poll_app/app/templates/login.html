@@ -19,6 +19,16 @@ const togglePassword = document.querySelector(".password-toggle-icon");
 }
 </script>
 <div class="wrapper">
+
+  {% block content %}
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning alert-dismissible mt-3" role="alert">
+      <button type="button" class="close" data-bs-dismiss="alert">&times;</button>
+        {{ message }}
+    </div>
+    {% endfor %}
+  {% endblock %}
+
 	<h1 class="title">Login to Audience-Poll</h1>
     <p class="desc" style="padding-top: 10px;">Create polls, Gather opinions, Make informed decisions with</p>
 	<p class="desc">Collective Input!</p>

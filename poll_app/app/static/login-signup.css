@@ -135,3 +135,26 @@ form .button input:hover {
 form .signup-login-link a:hover {
   text-decoration: underline;
 }
+
+.rule {
+  margin: 5px 0;
+  color: gray;
+}
+
+.rulePassed {
+  color: green;
+}
+
+.ruleFailed {
+  color: red;
+}
+
+#passval {
+  background-color: white;
+  visibility: hidden;
+  margin-left: 50px;
+  padding: 15px;
+  border-radius: 10px;
+  border: 2px solid #d5d7d7;
+  margin-top: 2px;
+}
