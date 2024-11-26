@@ -2,7 +2,7 @@ import qrcode
 from io import BytesIO
 import base64
 from flask_login import login_required, current_user
-from flask import request, redirect, url_for, render_template
+from flask import request, redirect, url_for, render_template, flash
 from app import create_app, login_manager
 from app import auth
 from app import poll_service as ps
@@ -31,6 +31,8 @@ def login():
         print(f"password is {password}")
         if (auth.login(email, password)):
             return redirect(url_for("home"))
+        else:
+            flash('Invalid Email/Password. Please Try Again')
     return render_template('login.html')
 
 @app.route('/logout')
