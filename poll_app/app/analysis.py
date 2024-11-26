@@ -4,13 +4,16 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from app import poll_service as ps
 
+import matplotlib
+matplotlib.use('Agg')
+
 def create_poll_vote_dist_plot(options):
     data = []
     for option in options:
         row = {'Option':option.text, 'Votes':ps.get_vote_counts_for_poll(option_id=option.id)}
         data.append(row)
     df = pd.DataFrame(data)
-    plt.bar(df['Option'], df['Votes'], label=df['Option'], width=0.5)
+    plt.bar(df['Option'], df['Votes'], label=df['Option'], width=0.5, color='#5CD1D5')
     plt.xlabel("Options")
     plt.ylabel("Votes")
     plt.title("Option Vote Distribution")
