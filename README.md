@@ -10,7 +10,7 @@ Audience Poll is a web-based platform that allows users to create polls on confl
 - **Scalability**: The platform can evolve to include personalized homepages based on user interests and voting history.
 
 ## Tech Stack
-- **Frontend**: HTML, CSS, JavaScript (with optional support for React)
-- **Backend**: Python, Django
-- **Database**: PostgreSQL (or SQLite for development)
-- **Real-Time Updates**: Django Channels (for real-time voting updates)
+- **Frontend**: HTML, CSS, JavaScript
+- **Backend**: Python, Flask
+- **Database**: SQLite
+- **Real-Time Updates**: Flask
