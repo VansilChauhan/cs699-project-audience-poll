@@ -138,7 +138,7 @@ def share_poll(poll_id):
     buffered = BytesIO()
     qr.save(buffered, format="PNG")
     qr_img_bytes= base64.b64encode(buffered.getvalue()).decode()
-    return render_template('share_poll.html', url=url, qr_img_bytes=qr_img_bytes)
+    return render_template('share_poll.html', user=current_user, url=url, qr_img_bytes=qr_img_bytes)
 
 @app.route('/admin')
 @auth.admin_required
