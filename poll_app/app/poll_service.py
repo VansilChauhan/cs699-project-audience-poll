@@ -19,7 +19,7 @@ def fetch_polls():
 
 def fetch_unreported_polls_by_user(user_id):    
     reported_polls = db.session.query(UserPollReport.poll_id).filter_by(user_id=user_id).subquery()
-    unreported_polls = db.session.query(Poll).filter(Poll.id.notin_(reported_polls))
+    unreported_polls = db.session.query(Poll).filter(Poll.id.notin_(db.session.query(reported_polls)))
     user_created_polls = Poll.query.filter_by(user_id=user_id)
     accessible_polls = unreported_polls.union(user_created_polls).all()
     return accessible_polls

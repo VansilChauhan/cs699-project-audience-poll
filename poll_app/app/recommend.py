@@ -1,8 +1,7 @@
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-# Combine titles and descriptions for all polls
-# remember to subtract voted poll text from all polls text
+
 def get_recommended_polls(all_polls, voted_polls):
     all_poll_texts = [poll.title + " " + poll.description + " " + poll.creator_username + " " + poll.created_at.strftime('%B %d, %Y at %I:%M %p') for poll in all_polls]
     voted_poll_texts = [poll.title + " " + poll.description + " " + poll.creator_username + " " + poll.created_at.strftime('%B %d, %Y at %I:%M %p') for poll in voted_polls]

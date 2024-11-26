@@ -8,6 +8,7 @@ from app import create_app, login_manager
 from app import auth
 from app import poll_service as ps
 from app import analysis
+from app import recommend
 
 
 app = create_app()
@@ -62,13 +63,22 @@ def signup():
 @app.route('/home')
 @login_required
 def home():
+    all_polls = ps.fetch_polls()
+
+    voted_polls = ps.get_polls_voted_by_user(user_id=current_user.id)
+
+    recommended_polls = None
+    if (len(voted_polls) != 0):
+        recommended_polls = recommend.get_recommended_polls(all_polls, voted_polls)
+        print(recommended_polls[0].title)
+
     polls = ps.fetch_unreported_polls_by_user(user_id=current_user.id)
 
     if 'q' in request.args:
         query = request.args.get('q').lower()
         polls = [p for p in polls if re.search(query, p.title.lower()) or re.search(query, p.creator_username.lower()) or re.search(query, p.created_at.strftime('%B %d, %Y at %I:%M %p').lower())]
     
-    return render_template("custom_polls.html", user=current_user, polls=polls, page="home")
+    return render_template("custom_polls.html", user=current_user, polls=polls, page="home", recommended_polls=recommended_polls)
 
 
 @app.route('/create_poll', methods=['GET', 'POST'])
