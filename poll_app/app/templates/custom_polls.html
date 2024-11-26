@@ -7,13 +7,17 @@
             <th scope="col"> Votes </th>
             <th scope="col"> Author </th>
             <th scope="col"> Created Date </th>
+            <th scope="col"> Report </th>
         </tr>
         {% for poll in polls %}
         <tr>
             <td class='col-sm-5'><a href="{{ url_for('poll', poll_id=poll.id) }}">{{ poll.title }}</a></td>
             <td class='col-sm-1'>{{ poll.vote_count}}</td>
-            <td class='col-sm-1'>{{ poll.creator_username}} </td>
-            <td class='col-sm-3'>{{ poll.created_at.strftime('%B %d, %Y at %I:%M %p')}} </td>
+            <td class='col-sm-1'>{{ poll.creator_username}}</td>
+            <td class='col-sm-3'>{{ poll.created_at.strftime('%B %d, %Y at %I:%M %p')}}</td>
+            {% if user.id != poll.user_id %}
+            <td class='col-sm-1'><a class="text-danger" href="{{url_for('report', poll_id=poll.id)}}">Report</a></td>
+            {% endif %}
         </tr>
         {% endfor %}
     </table>

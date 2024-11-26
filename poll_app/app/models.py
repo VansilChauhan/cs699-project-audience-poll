@@ -31,6 +31,7 @@ class User(db.Model, UserMixin):
     polls = db.relationship('Poll', backref='creator', lazy=True, cascade="all, delete")
     votes = db.relationship('Vote', backref='voter', lazy=True, cascade="all, delete")
     vote_history = db.relationship('UserVoteHistory', backref='user', lazy=True, cascade="all, delete")
+    poll_reports = db.relationship('UserPollReport', backref='user', lazy=True, cascade="all, delete")
 
 class Poll(db.Model):
     __tablename__ = 'poll'
@@ -40,10 +41,12 @@ class Poll(db.Model):
     created_at =db.Column(db.DateTime, default=datetime.now)
     status = db.Column(db.String(20), default='active')
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    is_flagged = db.Column(db.Boolean, default=False)
     
     options = db.relationship('Option', backref='poll', cascade="all, delete",lazy=True)
     votes = db.relationship('Vote', backref='poll', cascade="all,delete", lazy=True)
     vote_history = db.relationship('UserVoteHistory', backref='poll', cascade="all,delete", lazy=True)
+    poll_reports = db.relationship('UserPollReport', backref='poll', lazy=True, cascade="all, delete")
     
     @hybrid_property
     def vote_count(self):
@@ -82,3 +85,10 @@ class UserVoteHistory(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     poll_id = db.Column(db.Integer, db.ForeignKey('poll.id'), nullable=False)
+    
+class UserPollReport(db.Model):
+    __tablename__= 'user_poll_report'
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    poll_id = db.Column(db.Integer, db.ForeignKey('poll.id'), nullable=False)
+    

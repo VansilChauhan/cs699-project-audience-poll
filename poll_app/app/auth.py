@@ -69,6 +69,7 @@ def add_admins(admins):
         db.session.commit()
 
 
+
 # append the @auth.admin_required decorator on any route now if you want it to be only accessed by an admin user
 def admin_required(func):
     @login_required

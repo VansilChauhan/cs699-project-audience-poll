@@ -1,5 +1,5 @@
 from app import db
-from app.models import User, Poll, Option, Vote, UserVoteHistory
+from app.models import User, Poll, Option, Vote, UserVoteHistory, UserPollReport
 from sqlalchemy import func
 
 def create_poll(title, description, user_id):
@@ -16,6 +16,13 @@ def create_options(options, poll_id):
     
 def fetch_polls():
     return Poll.query.order_by(Poll.created_at.desc()).all()
+
+def fetch_unreported_polls_by_user(user_id):    
+    reported_polls = db.session.query(UserPollReport.poll_id).filter_by(user_id=user_id).subquery()
+    unreported_polls = db.session.query(Poll).filter(Poll.id.notin_(reported_polls))
+    user_created_polls = Poll.query.filter_by(user_id=user_id)
+    accessible_polls = unreported_polls.union(user_created_polls).all()
+    return accessible_polls
 
 def get_poll(poll_id):
     return Poll.query.filter_by(id=poll_id).first()
@@ -57,9 +64,7 @@ def get_polls_voted_by_user(user_id):
     return my_voted_polls
 
 def get_polls_created_by_user(user_id):
-    polls =  fetch_polls()
-    my_created_polls = [poll for poll in polls if check_owner(user_id=user_id, poll_id=poll.id)]
-    return my_created_polls
+    return Poll.query.filter_by(user_id=user_id)
 
 def delete_poll(user_id, poll_id):
     user = User.query.filter_by(id=user_id).first()
@@ -88,3 +93,12 @@ def vote_count_by_user_gender(option, gender):
             count += 1
     print(count)
     return count
+
+def report_poll(user_id, poll_id):
+    is_owner = user_id == Poll.query.get(poll_id).user_id
+    entry = UserPollReport.query.filter_by(user_id=user_id, poll_id=poll_id).first()
+    if is_owner or entry:
+        return
+    entry = UserPollReport(user_id=user_id, poll_id=poll_id)
+    db.session.add(entry)
+    db.session.commit()
