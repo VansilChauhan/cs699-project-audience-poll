@@ -16,37 +16,31 @@
     <form action="{{ url_for('create_poll') }}" method="POST">
     <table class="poll-table">
         <tr>
-            <td class="sm-col-4"><label for="title">Poll Question *</label></td>
+            <td><label for="title" class="poll-labels">Poll Question: </label></td>
             <td><input type="text" id="title" name="title" required placeholder="Poll Question"></td>
         </tr>
-        <tr>
-            <td><label for="description">Poll Description </label></td>
+            <td><label for="description" class="poll-labels">Poll Description: </label></td>
             <td><textarea rows="4" cols="24" id="description" name="description" placeholder="Poll Description"></textarea></td>
-        </tr>
-        <tr>
-            <td><label for="options">Options *</label></td>
-            <td>
-                <div style="display:inline;" id="options">
-                    <input type="text" name="option1" placeholder="Option 1" required>
-                    <input type="text" name="option2" placeholder="Option 2" required>
-                </div>
-            </td>
-        </tr>
-        <!--<tr>
-            <td><label for="multiple_choice"> Multiple Choice </label></td>
-            <td>
-                <input type="checkbox" name="multiple_choice" id="multiple_choice">
-            </td>
-        </tr>-->
+            <tr>
+                <td><label for="options" class="poll-labels">Options: </label></td>
+                <td>
+                    <div style="display:inline;" id="options">
+                        <input type="text" name="option1" class="optionStyle" placeholder="Option 1" required>
+                        <input type="text" name="option2" class="optionStyle" placeholder="Option 2" required>
+                    </div>
+                </td>
+            </tr>
         </table>
-        <table>
-            <button type="button" id="add-option-btn" onclick="addOption()">Add Option</button>
-            <button type="button" id="remove-option-btn" onclick="removeOption()" disabled>Remove Last Option</button>
-        </table>
-        <div class="button-div">
-            <button type="submit" class="button btn btn-info">Create Poll</button>
-        </div>
-    </form>     
+        <br>
+            <div>
+                <button type="button" class="btn btn-info add-remove-button" id="add-option-btn" onclick="addOption()">Add Option</button>
+            <button type="button" class="btn btn-info add-remove-button" id="remove-option-btn" onclick="removeOption()" disabled>Remove Last Option</button>
+            </div>
+
+    <div class="button-div">
+        <button type="submit" class="button btn btn-info">Create Poll</button>
+    </div>
+  </form>
 </div>
 {% endblock %}
 {% block script %}
@@ -64,6 +58,7 @@
             newOption.name = `option${optionCount}`;
             newOption.placeholder = `Option ${optionCount}`;
             newOption.required = true;
+            newOption.classList.add("newOptionStyle");
             optionsContainer.appendChild(newOption);
 
             if (optionCount > 2) {
