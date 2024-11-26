@@ -9,6 +9,7 @@
             <th scope="col"> Created Date </th>
             <th scope="col"> Action </th>
             <th scope="col"> Share </th>
+            <th scope="col"> Analysis </th>
         </tr>
         {% for poll in polls %}
         <tr>
@@ -18,6 +19,7 @@
             <td class='col-sm-3'>{{ poll.created_at.strftime('%B %d, %Y at %I:%M %p')}} </td>
             <td class="col-sm-1"><a class="text-danger" href="{{url_for('delete_poll', poll_id=poll.id)}}">delete</a></td>
             <td class="col-sm-1"><a href="{{url_for('share_poll', poll_id=poll.id)}}">share</a></td>
+            <td class="col-sm-1"><a href="{{url_for('analyse', poll_id=poll.id)}}">analyse</a></td>
         </tr>
         {% endfor %}
     </table>

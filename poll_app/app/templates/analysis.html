@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block body %}
+<img src="data:image/png;base64, {{plot_img}}" alt="plt">
+<!--
+    {% for plot in option_gender_dist_plots %}
+    <img src="data:image/png;base64, {{plot}}" alt="plt">
+    {% endfor %}
+-->
+{% endblock %}

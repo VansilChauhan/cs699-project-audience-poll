@@ -71,3 +71,19 @@ def delete_poll(user_id, poll_id):
     if user.is_admin or check_owner(user_id, poll_id):
         db.session.delete(poll)
         db.session.commit()
+
+def get_poll_options(poll_id):
+    return Option.query.filter_by(poll_id=poll_id).all()
+
+def get_all_unique_genders():
+    genders = []
+    for user in User.query.distinct(User.gender):
+        genders.append(user.gender)
+    return genders
+
+def vote_count_by_user_gender(option, gender):
+    count = 0
+    for vote in option.votes:
+        if User.query.get(vote.user_id).gender == gender:
+            count += 1
+    return count

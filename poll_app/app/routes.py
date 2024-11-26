@@ -6,7 +6,8 @@ from flask import request, redirect, url_for, render_template
 from app import create_app, login_manager
 from app import auth
 from app import poll_service as ps
-
+import matplotlib.pyplot as plt
+import pandas as pd
 
 app = create_app()
 
@@ -134,9 +135,6 @@ def share_poll(poll_id):
     qr_img_bytes= base64.b64encode(buffered.getvalue()).decode()
     return render_template('share_poll.html', url=url, qr_img_bytes=qr_img_bytes)
 
-
-
-
 @app.route('/admin')
 @auth.admin_required
 def admin_users():
@@ -154,3 +152,50 @@ def admin_delete(user_id):
 def admin_polls():
     polls = ps.fetch_polls()
     return render_template("admin_polls.html", user=current_user, polls=polls, page="polls")
+
+
+@app.route("/analyse/<poll_id>")
+@auth.login_required
+def analyse(poll_id):
+    poll = ps.get_poll(poll_id=poll_id)
+    if poll and current_user.id == poll.user_id:
+        options = ps.get_poll_options(poll_id=poll_id)
+        votes_img=create_poll_vote_dist_plot(options=options)
+        # option_gender_dist_plots = []
+        # for option in options:
+        #     option_gender_dist_plots.append(create_votes_gender_distribution(option=option))
+        return render_template('analysis.html', plot_img=votes_img)
+    return redirect(url_for('my_polls'))
+
+def create_poll_vote_dist_plot(options):
+    data = []
+    for option in options:
+        row = {'Option':option.text, 'Votes':ps.get_vote_counts_for_poll(option_id=option.id)}
+        data.append(row)
+    df = pd.DataFrame(data)
+    plt.bar(df['Option'], df['Votes'], label=df['Option'], width=0.5)
+    plt.xlabel("Options")
+    plt.ylabel("Votes")
+    plt.title("Option Vote Distribution")
+    buff = BytesIO()
+    plt.savefig(buff, format="png")
+    plt.close()
+    plot_img = base64.b64encode(buff.getvalue()).decode()
+    return plot_img
+
+# def create_votes_gender_distribution(option):
+#     data = []
+#     for gender in ps.get_all_unique_genders():
+#         votes = ps.vote_count_by_user_gender(option=option, gender=gender)
+#         row = {'Gender':gender, 'Votes':votes}
+#         print(row)
+#         data.append(row)
+#     df = pd.DataFrame(data)
+#     print(df)
+#     plt.pie(df['Votes'], labels=df['Gender'])
+#     plt.title(f"{option.text} votes")
+#     buff = BytesIO()
+#     plt.savefig(buff, format="png")
+#     plt.close()
+#     plot_img = base64.b64encode(buff.getvalue()).decode()
+#     return plot_img

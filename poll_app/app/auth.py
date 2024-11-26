@@ -64,7 +64,7 @@ def add_admins(admins):
             continue  # Skip adding this admin
 
         hashed_password = generate_password_hash(admin_pass)
-        new_user = User(email=admin_email, password_hash=hashed_password, is_admin=True, age=23, gender="Male")
+        new_user = User(email=admin_email, password_hash=hashed_password, is_admin=True, age=23, gender="male")
         db.session.add(new_user)
         db.session.commit()
 
