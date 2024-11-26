@@ -57,6 +57,9 @@ def signup():
             return redirect(url_for("login"))
     return render_template("signup.html")
 
+
+# initially just show all polls to a user, unless he has voted in atleast more than 1 poll
+# after that, using the voted polls of this user, recommend him 10 new polls
 @app.route('/home')
 @login_required
 def home():
