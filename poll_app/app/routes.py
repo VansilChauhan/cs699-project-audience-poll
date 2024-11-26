@@ -170,11 +170,10 @@ def analyse(poll_id):
     if poll and current_user.id == poll.user_id:
         options = ps.get_poll_options(poll_id=poll_id)
         votes_img= analysis.create_poll_vote_dist_plot(options=options)
-        option_gender_dist_plots = []
-        for option in options:
-            if option.vote_count > 0:
-                option_gender_dist_plots.append(analysis.create_votes_gender_distribution(option=option))
-        return render_template('analysis.html', plot_img=votes_img, option_gender_dist_plots=option_gender_dist_plots)
+        option_gender_dist_plot = analysis.create_stacked_vote_dist_plot_by_gender(options=options)
+        poll_gender_dist_plot = analysis.create_votes_gender_distribution_for_poll(poll=poll)
+        gender_option_dist_plot = analysis.all_gender_option_distribution_plots(poll=poll)
+        return render_template('analysis.html', votes_img=votes_img, option_gender_dist_plot=option_gender_dist_plot, poll_gender_dist_plot=poll_gender_dist_plot, gender_option_dist_plot=gender_option_dist_plot)
     return redirect(url_for('my_polls'))
 
 @app.route("/flag/<poll_id>")

@@ -16,7 +16,7 @@
             <td class='col-sm-1'>{{ poll.creator_username}}</td>
             <td class='col-sm-3'>{{ poll.created_at.strftime('%B %d, %Y at %I:%M %p')}}</td>
             {% if user.id != poll.user_id %}
-            <td class='col-sm-1'><a class="text-danger" href="{{url_for('report', poll_id=poll.id)}}">Report</a></td>
+            <td class='col-sm-1'><a class="text-danger" onclick="return confirm('Are you sure?')" href="{{url_for('report', poll_id=poll.id)}}">Report</a></td>
             {% endif %}
         </tr>
         {% endfor %}

@@ -17,7 +17,7 @@
             {% endif %}
             <td class="col-sm-1">
             {% if not user.is_admin %}
-                <a class="text-danger" href="{{url_for('admin_delete', user_id=user.id)}}">delete</a>
+                <a class="text-danger" onclick="return confirm('Are you sure?')" href="{{url_for('admin_delete', user_id=user.id)}}">delete</a>
             {% endif %}
             </td>
         </tr>

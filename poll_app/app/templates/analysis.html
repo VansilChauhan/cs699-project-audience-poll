@@ -20,9 +20,18 @@
     <br>
     <div style="justify-items: center;">
         <hr style="width:90%;">
-        <img width="450" src="data:image/png;base64, {{plot_img}}" style="margin-top:-15px;" alt="plt"><br>
-        {% for plot in option_gender_dist_plots %}
-            <img src="data:image/png;base64, {{plot}}" alt="plt"><br>
+        <h4> Results </h4>
+        <img width="450" src="data:image/png;base64, {{votes_img}}" alt="plt"><br><br>
+        <hr style="width:90%;">
+        <h4> How do votes for each option split between gender? </h4>
+        <img width="450" src="data:image/png;base64, {{option_gender_dist_plot}}" alt="plt"><br><br>
+        <hr style="width:90%;"> 
+        <h4> What is the gender ratio of voters for this poll? </h4>
+        <img width="450" src="data:image/png;base64, {{poll_gender_dist_plot}}" alt="plt"><br><br>
+        <hr style="width:90%;"> 
+        <h4> Which option is most popular among users of each gender? </h4>
+        {% for plot in gender_option_dist_plot %}
+        <img width="450" src="data:image/png;base64, {{plot}}" alt="plt"><br><br>
         {% endfor %}
     </div>
 </div>

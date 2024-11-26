@@ -20,15 +20,74 @@ def create_poll_vote_dist_plot(options):
     plot_img = base64.b64encode(buff.getvalue()).decode()
     return plot_img
 
-def create_votes_gender_distribution(option):
+def create_stacked_vote_dist_plot_by_gender(options):
+    genders = ps.get_all_unique_genders()
+    data = {'Option': []}
+    for gender in genders:
+        data[gender] = [] 
+
+    for option in options:
+        data['Option'].append(option.text)
+        for gender in genders:
+            votes = ps.vote_count_by_option_and_gender(option=option, gender=gender)
+            data[gender].append(votes)
+            
+    df = pd.DataFrame(data)
+    options = df['Option']
+    genders = df.columns[1:]
+
+    cumulative = pd.DataFrame(0, index=df.index, columns=genders)
+    for i, gender in enumerate(genders):
+        if i > 0:
+            cumulative[gender] = cumulative[genders[i-1]] + df[genders[i-1]]
+
+    for gender in genders:
+        plt.bar(options, df[gender], label=gender, bottom=cumulative[gender], width=0.5)
+
+    plt.xlabel('Options')
+    plt.ylabel('Votes')
+    plt.title('Votes by Gender per Option')
+    plt.legend()
+    buff = BytesIO()
+    plt.savefig(buff, format="png")
+    plt.close()
+    plot_img = base64.b64encode(buff.getvalue()).decode()
+    return plot_img
+
+def all_gender_option_distribution_plots(poll):
+    plots = []
+    for gender in ps.get_all_unique_genders():
+        plots.append(create_option_distribution_for_gender(poll=poll, gender=gender))
+    return plots
+
+def create_option_distribution_for_gender(poll, gender):
+    data = []
+    for option in poll.options:
+        votes = ps.vote_count_by_option_and_gender(option=option, gender=gender)
+        row = {'Option': option.text, 'Votes':votes}
+        data.append(row)
+    df = pd.DataFrame(data)
+    plt.bar(df['Option'], df['Votes'], label=df['Option'], width=0.5)
+    plt.xlabel("Options")
+    plt.ylabel("Votes")
+    plt.title(f"Votes per Option by gender: {gender}")
+    buff = BytesIO()
+    plt.savefig(buff, format="png")
+    plt.close()
+    plot_img = base64.b64encode(buff.getvalue()).decode()
+    return plot_img
+
+def create_votes_gender_distribution_for_poll(poll):
     data = []
     for gender in ps.get_all_unique_genders():
-        votes = ps.vote_count_by_user_gender(option=option, gender=gender)
+        votes = ps.vote_count_by_poll_and_gender(poll=poll, gender=gender)
         row = {'Gender':gender, 'Votes':votes}
         data.append(row)
     df = pd.DataFrame(data)
     plt.bar(df['Gender'], df['Votes'], label=df['Gender'], width=0.5)
-    plt.title(f"{option.text} votes")
+    plt.xlabel("Gender")
+    plt.ylabel("Votes")
+    plt.title("Votes by Gender")
     buff = BytesIO()
     plt.savefig(buff, format="png")
     plt.close()

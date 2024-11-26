@@ -25,5 +25,5 @@ def create_app():
         user_count=20
         for i in range(user_count//2):
             auth.signup(email=f"mstudent{i}@example.com", password="123ABCabc#", age=24, gender="male")
-            auth.signup(email=f"fstudent{i+user_count//2}@example.com", password="123ABCabc#", age=24, gender="female")
+            auth.signup(email=f"fstudent{i}@example.com", password="123ABCabc#", age=24, gender="female")
     return app
