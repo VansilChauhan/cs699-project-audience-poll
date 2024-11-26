@@ -3,10 +3,6 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='poll.css') }}" type="text/css"/>
 {% endblock %}
 {% block body %}
-<h1>Analysis of {{poll_title}}<h1>
-<hr>
-<img src="data:image/png;base64, {{plot_img}}" alt="plt"><br>
-
 <div class="share-analysis">
     <header style="margin-top: 30px; justify-items: left;">
         <a href="{{ url_for('my_polls') }}" class="button">
@@ -24,7 +20,7 @@
     <br>
     <div style="justify-items: center;">
         <hr style="width:90%;">
-        <img width="450" height="450" src="data:image/png;base64, {{plot_img}}" style="margin-top:-15px;" alt="plt"><br>
+        <img width="450" src="data:image/png;base64, {{plot_img}}" style="margin-top:-15px;" alt="plt"><br>
         {% for plot in option_gender_dist_plots %}
             <img src="data:image/png;base64, {{plot}}" alt="plt"><br>
         {% endfor %}
