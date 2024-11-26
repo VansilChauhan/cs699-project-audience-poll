@@ -1,2 +1,4 @@
 poll_app/virt/
-
+poll_app/__pycache__
+poll_app/app/__pycache__
+poll_app/app/instance/poll_app.db
