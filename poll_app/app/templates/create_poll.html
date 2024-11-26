@@ -16,29 +16,37 @@
     <form action="{{ url_for('create_poll') }}" method="POST">
     <table class="poll-table">
         <tr>
-            <td><label for="title">Poll Question: </label></td>
+            <td class="sm-col-4"><label for="title">Poll Question *</label></td>
             <td><input type="text" id="title" name="title" required placeholder="Poll Question"></td>
         </tr>
-            <td><label for="description">Poll Description: </label></td>
+        <tr>
+            <td><label for="description">Poll Description </label></td>
             <td><textarea rows="4" cols="24" id="description" name="description" placeholder="Poll Description"></textarea></td>
-            <tr>
-                <td><label for="options">Options: </label></td>
-                <td>
-                    <div style="display:inline;" id="options">
-                        <input type="text" name="option1" placeholder="Option 1" required>
-                        <input type="text" name="option2" placeholder="Option 2" required>
-                    </div>
-                </td>
-            </tr>
+        </tr>
+        <tr>
+            <td><label for="options">Options *</label></td>
+            <td>
+                <div style="display:inline;" id="options">
+                    <input type="text" name="option1" placeholder="Option 1" required>
+                    <input type="text" name="option2" placeholder="Option 2" required>
+                </div>
+            </td>
+        </tr>
+        <!--<tr>
+            <td><label for="multiple_choice"> Multiple Choice </label></td>
+            <td>
+                <input type="checkbox" name="multiple_choice" id="multiple_choice">
+            </td>
+        </tr>-->
         </table>
         <table>
             <button type="button" id="add-option-btn" onclick="addOption()">Add Option</button>
             <button type="button" id="remove-option-btn" onclick="removeOption()" disabled>Remove Last Option</button>
-        </form>
-    </table>
-    <div class="button-div">
-        <button type="submit" class="button btn btn-info">Create Poll</button>
-    </div>
+        </table>
+        <div class="button-div">
+            <button type="submit" class="button btn btn-info">Create Poll</button>
+        </div>
+    </form>     
 </div>
 {% endblock %}
 {% block script %}

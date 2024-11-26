@@ -46,8 +46,10 @@ def signup():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
+        gender = request.form['gender']
+        age = request.form['age']
 
-        if (auth.signup(email, password)):
+        if (auth.signup(email, password, gender=gender, age=age)):
             if (auth.login(email, password)):
                 return redirect(url_for("home"))
             return redirect(url_for("login"))
@@ -85,7 +87,6 @@ def poll(poll_id):
 @app.route("/results/<poll_id>", methods=['GET', 'POST'])
 @login_required
 def results(poll_id):
-
     if request.method == 'POST':
         selected_option_id=request.form['selected_option']
         ps.vote(user_id=current_user.id, poll_id=poll_id, option_id=selected_option_id)
@@ -127,7 +128,6 @@ def delete_account():
 @login_required
 def share_poll(poll_id):
     url = f"http://127.0.0.1:5000/poll/{poll_id}"
-    qr_path="static/qr_code.png"
     qr = qrcode.make(url)
     buffered = BytesIO()
     qr.save(buffered, format="PNG")

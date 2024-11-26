@@ -24,6 +24,8 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(500), unique=True, nullable=False)
     password_hash = db.Column(db.String(500), unique=True, nullable=False) # store the hash password
+    age=db.Column(db.Integer, nullable=False)
+    gender=db.Column(db.String(10), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
     
     polls = db.relationship('Poll', backref='creator', lazy=True, cascade="all, delete")

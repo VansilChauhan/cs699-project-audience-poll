@@ -25,7 +25,7 @@ def logout():
     logout_user()
 
 
-def signup(email, password):
+def signup(email, password, age, gender):
     # Check if the user already exists
     user = User.query.filter_by(email=email).first()
     if user: # user already exists
@@ -34,7 +34,7 @@ def signup(email, password):
     # TODO: verify email
     # Hash the password and create a new user
     hashed_password = generate_password_hash(password)
-    new_user = User(email=email, password_hash=hashed_password)
+    new_user = User(email=email, password_hash=hashed_password, age=age, gender=gender)
     db.session.add(new_user)
     db.session.commit()
     return True
@@ -64,7 +64,7 @@ def add_admins(admins):
             continue  # Skip adding this admin
 
         hashed_password = generate_password_hash(admin_pass)
-        new_user = User(email=admin_email, password_hash=hashed_password, is_admin=True)
+        new_user = User(email=admin_email, password_hash=hashed_password, is_admin=True, age=23, gender="Male")
         db.session.add(new_user)
         db.session.commit()
 
