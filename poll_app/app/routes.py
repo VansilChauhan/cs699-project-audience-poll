@@ -1,3 +1,5 @@
+import re
+import json
 import qrcode
 from io import BytesIO
 import base64
@@ -57,7 +59,13 @@ def signup():
 @login_required
 def home():
     polls = ps.fetch_polls()
+
+    if 'q' in request.args:
+        query = request.args.get('q').lower()
+        polls = [p for p in polls if re.search(query, p.title.lower()) or re.search(query, p.creator_username.lower()) or re.search(query, p.created_at.strftime('%B %d, %Y at %I:%M %p').lower())]
+    
     return render_template("custom_polls.html", user=current_user, polls=polls, page="home")
+
 
 @app.route('/create_poll', methods=['GET', 'POST'])
 @login_required
