@@ -99,12 +99,20 @@ def results(poll_id):
 @login_required
 def my_votes():
     polls = ps.get_polls_voted_by_user(user_id=current_user.id)
+    if 'q' in request.args:
+        query = request.args.get('q').lower()
+        polls = [p for p in polls if re.search(query, p.title.lower()) or re.search(query, p.creator_username.lower()) or re.search(query, p.created_at.strftime('%B %d, %Y at %I:%M %p').lower())]
+    
     return render_template("custom_polls.html", user=current_user, polls=polls, page="history")
     
 @app.route("/home/my_polls")
 @login_required
 def my_polls():
     polls = ps.get_polls_created_by_user(user_id=current_user.id)
+    if 'q' in request.args:
+        query = request.args.get('q').lower()
+        polls = [p for p in polls if re.search(query, p.title.lower()) or re.search(query, p.creator_username.lower()) or re.search(query, p.created_at.strftime('%B %d, %Y at %I:%M %p').lower())]
+    
     return render_template("my_polls.html", user=current_user, polls=polls, page="poll")
 
 @app.route("/home/my_polls/delete/<poll_id>")
@@ -129,12 +137,15 @@ def share_poll(poll_id):
     buffered = BytesIO()
     qr.save(buffered, format="PNG")
     qr_img_bytes= base64.b64encode(buffered.getvalue()).decode()
-    return render_template('share_poll.html', url=url, qr_img_bytes=qr_img_bytes)
+    return render_template('share_poll.html', user=current_user, url=url, qr_img_bytes=qr_img_bytes)
 
 @app.route('/admin')
 @auth.admin_required
 def admin_users():
     users = auth.get_all_users()
+    if 'q' in request.args:
+        query = request.args.get('q').lower()
+        users = [u for u in users if re.search(query, u.email.lower())]
     return render_template("admin_users.html", user=current_user, users=users, page="users")
 
 @app.route('/admin/delete/<user_id>')
@@ -147,6 +158,9 @@ def admin_delete(user_id):
 @auth.admin_required
 def admin_polls():
     polls = ps.fetch_polls()
+    if 'q' in request.args:
+        query = request.args.get('q').lower()
+        polls = [p for p in polls if re.search(query, p.title.lower()) or re.search(query, p.creator_username.lower()) or re.search(query, p.created_at.strftime('%B %d, %Y at %I:%M %p').lower())]
     return render_template("admin_polls.html", user=current_user, polls=polls, page="polls")
 
 @app.route("/analyse/<poll_id>")
