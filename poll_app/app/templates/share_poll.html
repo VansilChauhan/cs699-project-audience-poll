@@ -1,9 +1,22 @@
 {% extends 'base.html' %}
 {% block body %}
-<input type="text" value="{{url}}" id="link" readonly>
-<button onclick="copy_to_clipboard()">Copy Link</button>
-<hr>
-<img src="data:image/png;base64, {{qr_img_bytes}}" alt="QR Code">
+<div class="wrapper">
+    <header style="justify-items: left;">
+        <a href="{{ url_for('home') }}" class="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-bar-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5"/>
+              </svg>
+              &ensp;Home</a>
+    </header>
+    <br>
+    <div style="justify-items: center;">
+    <link rel="stylesheet" href="{{ url_for('static', filename='poll.css') }}" type="text/css"/>
+       <input style="cursor:default;" type="text" value="{{url}}" id="link" readonly>
+       <button style="margin-left:10px; padding: 5px;" class="btn btn-info" onclick="copy_to_clipboard()">Copy Link</button>
+       <hr style="width:90%;">
+       <img src="data:image/png;base64, {{qr_img_bytes}}" style="margin-top:-10px;" alt="QR Code">
+    </div>
+</div>
 {% endblock %}
 {% block script %}
 <script>
