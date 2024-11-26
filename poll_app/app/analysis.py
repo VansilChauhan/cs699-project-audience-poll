@@ -4,6 +4,9 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from app import poll_service as ps
 
+import matplotlib
+matplotlib.use('Agg')
+
 def create_poll_vote_dist_plot(options):
     data = []
     for option in options:
@@ -28,7 +31,7 @@ def create_votes_gender_distribution(option):
         data.append(row)
     df = pd.DataFrame(data)
     plt.bar(df['Gender'], df['Votes'], label=df['Gender'], width=0.5)
-    plt.title(f"{option.text} votes")
+    plt.title(f"Votes for Option: '{option.text}'")
     buff = BytesIO()
     plt.savefig(buff, format="png")
     plt.close()
