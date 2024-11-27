@@ -59,7 +59,7 @@ Class Diagram, DB Diagram, and UI Screenshots can be accessed <a href="https://g
 
 ## Running the Web-app:
 1) Clone this repository / Or download the zip and unzip the repository
-2) Run `./runserver.sh'
+2) Run `./runserver.sh`
 3) Open Browser and Navigate to: <a href="http://localhost:5000/">http://localhost:5000/</a>
 
 <img width="795" alt="image" src="https://github.com/user-attachments/assets/9ef210b7-7def-49ae-8676-54c026d32954">
