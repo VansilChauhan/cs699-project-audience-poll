@@ -127,7 +127,7 @@ function passwordRules(){
     overflow-y: scroll;
   }
 </style>
-<div class="wrapper" style="margin-top: 100px;">
+<div class="wrapper" style="margin-top: 175px;">
 
     <h1 class="title">Register to Audience-Poll</h1>
     <p class="desc" style="padding-top: 10px;">Create polls, Gather opinions, Make informed decisions with</p>
@@ -166,7 +166,7 @@ function passwordRules(){
       <div class="row button">
         <input onclick="return checkSubmit()" type="button" value="Register" />
       </div>
-      <div class="signup-login-link">Already a member? <a href="{{ url_for('login') }}">Login now</a></div>
+      <div style="margin-bottom: 20px;" class="signup-login-link">Already a member? <a href="{{ url_for('login') }}">Login now</a></div>
     </form>
 </div>
 {% endblock %}

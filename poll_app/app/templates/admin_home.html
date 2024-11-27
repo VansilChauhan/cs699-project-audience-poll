@@ -6,8 +6,8 @@
     <li><a id="home" href="{{ url_for('home') }}">Home</a></li>
     <li><a id="users" href="{{ url_for('admin_users') }}">Users</a></li>
     <li><a id="polls" href="{{ url_for('admin_polls') }}">Polls</a></li>
-    <li style="cursor: pointer;float:right" class="user">
-        <img onclick="toggleSidebar()" style="float:right" src="{{ url_for('static', filename='user.jpg')}}" height="50" width="50">
+    <li style="cursor: pointer; float: right; margin-right: -3px;" class="user">
+        <img width="50" height="52" onclick="toggleSidebar()" style="float:right" src="{{ url_for('static', filename='user.jpg')}}" height="50" width="50">
     </li>
 </ul>
 

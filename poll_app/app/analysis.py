@@ -44,13 +44,14 @@ def create_stacked_vote_dist_plot_by_gender(options):
         if i > 0:
             cumulative[gender] = cumulative[genders[i-1]] + df[genders[i-1]]
 
+    gcolors = {'male':'#9BE5FF', 'female':'#FFD1DC', 'other':'#77DD77'}
     for gender in genders:
-        plt.bar(options, df[gender], label=gender, bottom=cumulative[gender], width=0.5)
+        plt.bar(options, df[gender], label=gender, bottom=cumulative[gender], width=0.5, color=gcolors[gender])
 
     plt.xlabel('Options')
     plt.ylabel('Votes')
     plt.title('Votes by Gender per Option')
-    plt.legend()
+    plt.legend(loc='upper right')
     buff = BytesIO()
     plt.savefig(buff, format="png")
     plt.close()
@@ -70,10 +71,10 @@ def create_option_distribution_for_gender(poll, gender):
         row = {'Option': option.text, 'Votes':votes}
         data.append(row)
     df = pd.DataFrame(data)
-    plt.bar(df['Option'], df['Votes'], label=df['Option'], width=0.5)
+    plt.bar(df['Option'], df['Votes'], label=df['Option'], width=0.5, color=['#9EEFE1', '#A2FFCE', '#A2FFA8'])
     plt.xlabel("Options")
     plt.ylabel("Votes")
-    plt.title(f"Votes per Option by gender: {gender}")
+    plt.title(f"Votes per Option by Gender: {gender}")
     buff = BytesIO()
     plt.savefig(buff, format="png")
     plt.close()
@@ -87,7 +88,7 @@ def create_votes_gender_distribution_for_poll(poll):
         row = {'Gender':gender, 'Votes':votes}
         data.append(row)
     df = pd.DataFrame(data)
-    plt.bar(df['Gender'], df['Votes'], label=df['Gender'], width=0.5)
+    plt.bar(df['Gender'], df['Votes'], label=df['Gender'], width=0.5, color=['#C291DB', '#C2ADFC', '#FFABFA'])
     plt.xlabel("Gender")
     plt.ylabel("Votes")
     plt.title("Votes by Gender")

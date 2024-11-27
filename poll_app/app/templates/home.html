@@ -10,8 +10,8 @@
         {% if user.is_admin %}
         <li><a href="{{ url_for('admin_users') }}">Admin Panel</a></li>
         {% endif %}
-        <li style="cursor: pointer;float:right" class="user">
-            <img onclick="toggleSidebar()" style="float:right" src="{{ url_for('static', filename='user.jpg')}}" height="50" width="50">
+        <li style="cursor: pointer; float: right; margin-right: -3px;" class="user">
+            <img width="50" height="52" onclick="toggleSidebar()" style="float:right" src="{{ url_for('static', filename='user.jpg')}}" height="50" width="50">
         </li>
     </ul>
     
@@ -25,7 +25,7 @@
         {% endif %}
         <a href="{{url_for('logout')}}">Log Out</a>
         <hr>
-        <a class="text-danger" onclick="return confirm('Are you sure?')" href="{{url_for('delete_account')}}"> Delete Account </a>
+        <a class="text-danger" onclick="return confirm('Are you sure you want to Delete this Account?')" href="{{url_for('delete_account')}}"> Delete Account </a>
     </div>
     <script>
 
@@ -53,7 +53,7 @@
 <br>
 <div class="wrapper">
     <h4 class="welcome">Welcome <i class="username">{{user.email}}</i></h4><br>
-    <div style="margin-left: 5.2rem;">
+    <div style="margin-left: 50px;">
     <form>
         <input type="search-poll" name="q" placeholder="Search...">
         <button type="search-submit" class="btn search-button">Search</button>
