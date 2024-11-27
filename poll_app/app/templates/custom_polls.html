@@ -2,7 +2,7 @@
 {% block wrapper %}
 <div class="m-5">
     {% if recommended_polls %}
-    <p style="font-size: 19px;">Recommended Polls</p>
+    <h4 class="text-center">Recommended Polls</h4>
         <table class="table">
             <tr>
                 <th scope="col"> Poll Name </th>
@@ -32,8 +32,9 @@
             {% endfor %}
         </table>
     {% endif %}
-    <br>
-    <p style="font-size: 19px;">All Polls</p>
+    <hr>
+    <hr>
+    <h4 class="text-center">All Polls</h4>
     <table class="table">
         <tr>
             <th scope="col"> Poll Name </th>

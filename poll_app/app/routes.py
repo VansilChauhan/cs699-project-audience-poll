@@ -146,7 +146,7 @@ def delete_account():
 @app.route("/share/<poll_id>")
 @login_required
 def share_poll(poll_id):
-    url = f"http://127.0.0.1:5000/poll/{poll_id}"
+    url = request.url
     qr = qrcode.make(url)
     buffered = BytesIO()
     qr.save(buffered, format="PNG")
