@@ -124,10 +124,10 @@ def create_app():
         for i in range (len(dummy_polls)//2 + len(dummy_polls)//4, len(dummy_polls)):
             add_dummy_poll("mstudent2@example.com", dummy_polls_list[i][0], dummy_polls_list[i][1])
 
-        voter_id = models.User.query.filter_by(email="mstudent0@example.com").first().id
-        from app import poll_service
-        poll_service.vote(15, 1, voter_id)
-        poll_service.vote(16, 1, voter_id)
-        poll_service.vote(18, 1, voter_id)
+        # voter_id = models.User.query.filter_by(email="mstudent0@example.com").first().id
+        # from app import poll_service
+        # poll_service.vote(15, 1, voter_id)
+        # poll_service.vote(16, 1, voter_id)
+        # poll_service.vote(18, 1, voter_id)
 
     return app

@@ -1,5 +1,5 @@
 from app import db
-from app.models import User, Poll, Option, Vote, UserVoteHistory, UserPollReport
+from app.models import User, Poll, Option, Vote, UserPollReport
 from sqlalchemy import func
 
 def create_poll(title, description, user_id):
@@ -13,6 +13,11 @@ def create_options(options, poll_id):
         option = Option(text=text, poll_id=poll_id)
         db.session.add(option)
     db.session.commit()
+
+def fetch_unvoted_polls(user_id):
+    polls =  fetch_polls()
+    my_voted_polls = [poll for poll in polls if not check_history(user_id=user_id, poll_id=poll.id)]
+    return my_voted_polls
     
 def fetch_polls():
     return Poll.query.order_by(Poll.created_at.desc()).all()
@@ -24,6 +29,12 @@ def fetch_unreported_polls_by_user(user_id):
     accessible_polls = unreported_polls.union(user_created_polls).all()
     return accessible_polls
 
+def fetch_reported_polls():
+    reported_poll_ids = db.session.query(UserPollReport.poll_id)
+    reported_polls = Poll.query.filter(Poll.id.in_(reported_poll_ids)).all()
+    return reported_polls
+
+
 def get_poll(poll_id):
     return Poll.query.filter_by(id=poll_id).first()
 
@@ -31,9 +42,9 @@ def vote(poll_id, option_id, user_id):
     is_already_voted = check_history(user_id=user_id,poll_id=poll_id)
     if not is_already_voted:
         vote = Vote(user_id=user_id, poll_id=poll_id, option_id=option_id)
-        add_vote_history(user_id=user_id, poll_id=poll_id)
         db.session.add(vote)
         db.session.commit()
+        # add_vote_history(user_id=user_id, poll_id=poll_id, vote_id=vote.id)
     
 def get_vote_counts_for_poll(option_id):
     vote_count = (
@@ -43,14 +54,16 @@ def get_vote_counts_for_poll(option_id):
     )
     return vote_count
 
-def add_vote_history(user_id, poll_id):
-    history = UserVoteHistory(user_id=user_id, poll_id=poll_id)
-    db.session.add(history)
-    db.session.commit()
+# def add_vote_history(user_id, poll_id, vote_id):
+#     # history = UserVoteHistory(user_id=user_id, poll_id=poll_id, vote_id=vote_id)
+#     db.session.add(history)
+#     db.session.commit()
         
 def check_history(user_id, poll_id):
-    if UserVoteHistory.query.filter_by(user_id=user_id, poll_id=poll_id).first():
+    if Vote.query.filter_by(user_id=user_id, poll_id=poll_id).first():
         return True
+    # if UserVoteHistory.query.filter_by(user_id=user_id, poll_id=poll_id).first():
+        # return True
     return False
 
 def check_owner(user_id, poll_id):
@@ -109,3 +122,8 @@ def report_poll(user_id, poll_id):
     entry = UserPollReport(user_id=user_id, poll_id=poll_id)
     db.session.add(entry)
     db.session.commit()
+    
+def reject_flag(poll_id):
+    UserPollReport.query.filter_by(poll_id=poll_id).delete()
+    db.session.commit()
+    pass

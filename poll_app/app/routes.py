@@ -25,12 +25,12 @@ def load_user(user_id):
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    print(f"login called with method {request.method}")
+    # print(f"login called with method {request.method}")
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        print(f"email is {email}")
-        print(f"password is {password}")
+        # print(f"email is {email}")
+        # print(f"password is {password}")
         if (auth.login(email, password)):
             return redirect(url_for("home"))
         else:
@@ -63,14 +63,15 @@ def signup():
 @app.route('/home')
 @login_required
 def home():
-    all_polls = ps.fetch_polls()
+    all_polls=ps.fetch_polls()
+    # unvoted_polls = ps.fetch_unvoted_polls(user_id=current_user.id)
+    # print(len(unvoted_polls))
 
     voted_polls = ps.get_polls_voted_by_user(user_id=current_user.id)
 
     recommended_polls = None
     if (len(voted_polls) != 0):
         recommended_polls = recommend.get_recommended_polls(all_polls, voted_polls)
-        print(recommended_polls[0].title)
 
     polls = ps.fetch_unreported_polls_by_user(user_id=current_user.id)
 
@@ -194,3 +195,15 @@ def analyse(poll_id):
 def report(poll_id):
     ps.report_poll(user_id=current_user.id, poll_id=poll_id)
     return redirect(url_for('home'))
+
+@app.route("/flag/reported_polls/")
+@auth.admin_required
+def admin_reported_polls():
+    polls = ps.fetch_reported_polls()
+    return render_template('admin_reported_polls.html', user=current_user, polls=polls, page="reports")
+
+@app.route("/reject/<poll_id>")
+@auth.admin_required
+def reject_flag(poll_id):
+    ps.reject_flag(poll_id=poll_id)
+    return redirect(url_for('admin_polls'))
