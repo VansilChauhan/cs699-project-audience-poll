@@ -1,7 +1,9 @@
 # cs699-project-audience-poll
 # Audience Poll - Empowering Informed Decisions Through Collective Knowledge
 
-Audience Poll is a web-based platform that allows users to create polls on conflicting topics and receive votes from other users based on their knowledge or experience. The system aggregates the results in real-time to help users make better, more informed decisions.
+Audience Poll is a web-based platform that allows users to create polls on conflicting topics and receive votes from other users based on their knowledge or experience. The system aggregates the results in real-time to help users make better, more informed decisions.<br><br>
+
+<img width="946" alt="image" src="https://github.com/user-attachments/assets/6c63c3a5-15df-4801-910a-c699ac6de621">
 
 ## Why Polling App:
 <ul>
@@ -52,14 +54,14 @@ Audience Poll is a web-based platform that allows users to create polls on confl
     <li>Personalized Recommendations: Suggest polls based on a user's voting history using Machine Learning.</li>
 </ol>
 
-## Class Diagram:
+## Class Diagram and UI Details:
+Class Diagram, DB Diagram, and UI Screenshots can be accessed <a href="https://github.com/VansilChauhan/cs699-project-audience-poll/tree/main/Screenshots">HERE</a>
 
-
-## UI Screenshots:
-
-## Running the web-app:
-1) Clone this repository / Or download zip and unzip the repository
-2) Navigate to poll_app folder
+## Running the Web-app:
+1) Clone this repository / Or download the zip and unzip the repository
+2) Navigate to the poll_app folder
 3) Run command: <b>flask --app run.py run --debug</b>
 4) Open Browser and Navigate to: <a href="http://localhost:5000/">http://localhost:5000/</a>
+
+<img width="795" alt="image" src="https://github.com/user-attachments/assets/9ef210b7-7def-49ae-8676-54c026d32954">
 
