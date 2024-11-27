@@ -6,6 +6,7 @@
     <li><a id="home" href="{{ url_for('home') }}">Home</a></li>
     <li><a id="users" href="{{ url_for('admin_users') }}">Users</a></li>
     <li><a id="polls" href="{{ url_for('admin_polls') }}">Polls</a></li>
+    <li><a id="reports" href="{{ url_for('admin_reported_polls')}}"> Reported Polls</a></li>
     <li style="cursor: pointer;float:right" class="user">
         <img onclick="toggleSidebar()" style="float:right" src="{{ url_for('static', filename='user.jpg')}}" height="50" width="50">
     </li>
@@ -23,9 +24,9 @@
     <hr>
 </div>
 <script>
-
     const pollsTab = document.getElementById("polls");
     const usersTab = document.getElementById("users");
+    const reportsTab = document.getElementById("reports");
     const page = "{{ page }}";
 
     if (page === "polls") {
@@ -33,6 +34,9 @@
     }
     else if (page === "users") {
         usersTab.classList.add("active");
+    }
+    else if (page === "reports"){
+        reportsTab.classList.add("active")
     }
 
     function toggleSidebar() {

@@ -30,7 +30,7 @@ class User(db.Model, UserMixin):
     
     polls = db.relationship('Poll', backref='creator', lazy=True, cascade="all, delete")
     votes = db.relationship('Vote', backref='voter', lazy=True, cascade="all, delete")
-    vote_history = db.relationship('UserVoteHistory', backref='user', lazy=True, cascade="all, delete")
+    # vote_history = db.relationship('UserVoteHistory', backref='user', lazy=True, cascade="all, delete")
     poll_reports = db.relationship('UserPollReport', backref='user', lazy=True, cascade="all, delete")
 
 class Poll(db.Model):
@@ -45,7 +45,7 @@ class Poll(db.Model):
     
     options = db.relationship('Option', backref='poll', cascade="all, delete",lazy=True)
     votes = db.relationship('Vote', backref='poll', cascade="all,delete", lazy=True)
-    vote_history = db.relationship('UserVoteHistory', backref='poll', cascade="all,delete", lazy=True)
+    # vote_history = db.relationship('UserVoteHistory', backref='poll', cascade="all,delete", lazy=True)
     poll_reports = db.relationship('UserPollReport', backref='poll', lazy=True, cascade="all, delete")
     
     @hybrid_property
@@ -80,11 +80,12 @@ class Vote(db.Model):
     option_id = db.Column(db.Integer, db.ForeignKey('option.id'), nullable=False)
     voted_at = db.Column(db.DateTime, default=datetime.now)
 
-class UserVoteHistory(db.Model):
-    __tablename__ = 'user_vote_history'
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    poll_id = db.Column(db.Integer, db.ForeignKey('poll.id'), nullable=False)
+# class UserVoteHistory(db.Model):
+#     __tablename__ = 'user_vote_history'
+#     id = db.Column(db.Integer, primary_key=True)
+#     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+#     poll_id = db.Column(db.Integer, db.ForeignKey('poll.id'), nullable=False)
+#     vote_id = db.Column(db.Integer, db.ForeignKey('vote.id'), nullable=False)
     
 class UserPollReport(db.Model):
     __tablename__= 'user_poll_report'

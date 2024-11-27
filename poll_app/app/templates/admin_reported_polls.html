@@ -1,0 +1,25 @@
+{% extends 'admin_home.html' %}
+{% block wrapper %}
+<div class="m-5">
+    <table class="table">
+        <tr>
+            <th scope="col"> Poll Name </th>
+            <th scope="col"> Votes </th>
+            <th scope="col"> Author </th>
+            <th scope="col"> Created Date </th>
+            <th scope="col"> Action </th>
+            <th scope="col"> Approve </th>
+        </tr>
+        {% for poll in polls %}
+        <tr>
+            <td class='col-sm-5'><a href="{{ url_for('poll', poll_id=poll.id) }}">{{ poll.title }}</a></td>
+            <td class='col-sm-1'>{{ poll.vote_count}}</td>
+            <td class='col-sm-1'>{{ poll.creator_username}} </td>
+            <td class='col-sm-3'>{{ poll.created_at.strftime('%B %d, %Y at %I:%M %p')}} </td>
+            <td class="col-sm-1"><a class="text-danger" onclick="return confirm('Are you sure?')" href="{{url_for('delete_poll', poll_id=poll.id)}}">delete</a></td>
+            <td class="col-sm-1"><a href="{{url_for('reject_flag', poll_id=poll.id)}}"> Reject </a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    </div>
+{% endblock %} 
